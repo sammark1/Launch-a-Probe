@@ -3,8 +3,9 @@
 2022 Samuel Mark
 
 ## Where people can't be bothered to explore
+is where probes will go. 
 
-
+You are in control of a probe exploring a distant galaxy. The speed of light is no barrier. Before you stretches a trillion stellar bodies. Using your "Scan" ability, it's time to get to know a few of them, and possibly discover something new to share with the rest of your network of probes.
 
 ## User Stories
 
@@ -27,3 +28,6 @@
 17. As a user I would like to discover anomalous readings in some locations
 18. As a user I would like to learn of other probe discoveries
 19. As a user I would like to be able to search for specific discoveries
+
+## ERD
+![Launch a Probe (ERD)](https://raw.githubusercontent.com/sammark1/Launch-a-Probe/main/Launch%20a%20probe%20ERD.jpeg)
