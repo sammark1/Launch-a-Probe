@@ -31,3 +31,7 @@ You are in control of a probe exploring a distant galaxy. The speed of light is 
 
 ## ERD
 ![Launch a Probe (ERD)](https://raw.githubusercontent.com/sammark1/Launch-a-Probe/main/Launch%20a%20probe%20ERD.jpeg)
+
+## Wireframe
+![Launch a Probe (wireframe1)](https://raw.githubusercontent.com/sammark1/Launch-a-Probe/main/Wireframe1.png)
+![Launch a Probe (wireframe2)](https://raw.githubusercontent.com/sammark1/Launch-a-Probe/main/Wireframe2.png)
