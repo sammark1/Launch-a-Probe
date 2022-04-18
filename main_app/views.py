@@ -7,3 +7,6 @@ from django.views.generic.base import TemplateView
 
 class Landing(TemplateView):
     template_name = "landing.html"
+
+class Launch(TemplateView):
+    template_name = "launch.html"

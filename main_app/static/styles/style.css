@@ -1,3 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
+
+body{
+    margin:0;
+    background-color: black;
+}
 h1{
-    color:green;
+    font-family: 'DotGothic16', sans-serif;
+    color:white;
 }
