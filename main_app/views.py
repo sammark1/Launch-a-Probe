@@ -10,3 +10,23 @@ class Landing(TemplateView):
 
 class Launch(TemplateView):
     template_name = "launch.html"
+
+class System:
+    def __init__(self, designation, name):
+        self.designation = designation
+        self.name = name
+
+systems = [
+    System("SA-5994", "Fitzpatrick"),
+    System("SA-5995", "Eggman"),
+    System("SA-5996", "Retired Robot"),
+    System("SA-5997", "crabpoijloe"),
+]
+
+class Systems_List(TemplateView):
+    template_name = "systems_list.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["systems"] = systems
+        return context

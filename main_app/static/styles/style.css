@@ -3,7 +3,9 @@
 body{
     margin:0;
     background-color: black;
+    color:white;
 }
+
 h1{
     font-family: 'DotGothic16', sans-serif;
     color:white;
