@@ -67,10 +67,11 @@ def logout_view(request):
 
 def login_view(request):
     if request.method == 'POST':
-        form = AuthenticationForm(request, request.POST)
-        if form.is_valid():
-            u = form.cleaned_data['username']
-            p = form.cleaned_data['password']
+        form1 = AuthenticationForm(request, request.POST)
+        form2 = UserCreationForm(request.POST)
+        if form1.is_valid():
+            u = form1.cleaned_data['username']
+            p = form1.cleaned_data['password']
             user = authenticate(username = u, password = p)
             if user is not None:
                 if user.is_active:
@@ -78,14 +79,22 @@ def login_view(request):
                     return HttpResponseRedirect('/user/'+u)
                 else:
                     print('The account has been disabled.')
-                    return render(request, 'login.html', {'form': form})
+                    return render(request, 'login.html', {'form1': form1, 'form2':form2})
             else:
                 print('The username and/or password is incorrect.')
-                return render(request, 'login.html', {'form': form})
+                return render(request, 'login.html', {'form1': form1, 'form2':form2})
         else:
-            return render(request, 'login.html', {'form': form})
+            return render(request, 'login.html', {'form1': form1, 'form2':form2})
             # raise ValidationError('this is an error')
+        if form2.is_valid():
+            user = form2.save()
+            login(request, user)
+            print('logging in ', user.username)
+            return HttpResponseRedirect('/user/'+str(user))
+        else:
+            return render(request, 'login.html', {'form1': form1, 'form2':form2})
     else:
-        form = AuthenticationForm()
-        return render(request, 'login.html', {'form': form})
+        form1 = AuthenticationForm()
+        form2 = UserCreationForm()
+        return render(request, 'login.html', {'form1': form1, 'form2':form2})
 
