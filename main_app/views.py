@@ -10,6 +10,8 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from .models import System
 
+from django.core.exceptions import ValidationError
+
 # Views
 
 class Landing(TemplateView):
@@ -32,16 +34,11 @@ class System_View(DetailView):
     model = System
     template_name = "system_view.html"
 
-class SystemCreate(CreateView):
+class System_Create(CreateView):
   model = System
   fields = '__all__'
+  template_name = "system_create.html"
   success_url = '/launch/'
-
-  def form_valid(self, form):
-    self.object = form.save(commit=False)
-    self.object.user = self.request.user
-    self.object.save()
-    return HttpResponseRedirect('/launch/')
 
 # ==========USER/AUTH=========
 
@@ -54,7 +51,7 @@ def signup_view(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            user=form.save()
+            user = form.save()
             login(request, user)
             print('logging in ', user.username)
             return HttpResponseRedirect('/user/'+str(user))
@@ -73,7 +70,7 @@ def login_view(request):
         form = AuthenticationForm(request, request.POST)
         if form.is_valid():
             u = form.cleaned_data['username']
-            p = form.cleanded_data['password']
+            p = form.cleaned_data['password']
             user = authenticate(username = u, password = p)
             if user is not None:
                 if user.is_active:
@@ -84,9 +81,10 @@ def login_view(request):
                     return render(request, 'login.html', {'form': form})
             else:
                 print('The username and/or password is incorrect.')
-                return render(request, 'login.html', {'form', form})
+                return render(request, 'login.html', {'form': form})
         else:
-            return render(request, 'login.html', {'form', form})
+            return render(request, 'login.html', {'form': form})
+            # raise ValidationError('this is an error')
     else:
         form = AuthenticationForm()
         return render(request, 'login.html', {'form': form})
