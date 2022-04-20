@@ -28,7 +28,11 @@ class Systems_List(TemplateView):
         context["systems"] = System.objects.all()
         return context
 
-class CatCreate(CreateView):
+class System_View(DetailView):
+    model = System
+    template_name = "system_view.html"
+
+class SystemCreate(CreateView):
   model = System
   fields = '__all__'
   success_url = '/launch/'

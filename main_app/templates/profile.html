@@ -2,10 +2,10 @@
 
 {% block body %}
 
-<h1>{{ username }}'s collection:</h1>
+<h1>{{ username }}'s discoveries:</h1>
 
 {% for system in systems %}
-<a href="/launch/">
+<a href="{% url 'System_View' system.id %}">
   <h3>{{ system.name }}</h3>
 </a>
 

@@ -7,8 +7,10 @@
 {% block body %}
 <h1>Systems List</h1>
 {% for system in systems %}
-    <h3>Designation: {{system.designation}}</h3>
-    <h3>Name: {{system.name}}</h3>
+    <a href="{% url 'System_View' system.id %}">
+        <h3>Designation: {{system.designation}}</h3>
+        <h3>Name: {{system.name}}</h3>
+    </a>
     <h3>Type: {{system.type}}</h3>
     <p>
         <a href='/user/{{system.discoverer.username}}'>{{system.discoverer.username}}</a>
