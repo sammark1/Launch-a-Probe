@@ -14,8 +14,8 @@ from django.core.exceptions import ValidationError
 
 # Views
 
-class Landing(TemplateView):
-    template_name = "landing.html"
+# class Landing(TemplateView):
+#     template_name = "landing.html"
 
 class Launch(TemplateView):
     template_name = "launch.html"
@@ -47,25 +47,11 @@ def profile(request, username):
     systems = System.objects.filter(discoverer=user)
     return render(request, 'profile.html', {'username': username, 'systems': systems})
 
-def signup_view(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            print('logging in ', user.username)
-            return HttpResponseRedirect('/user/'+str(user))
-        else:
-            return render(request, 'signup.html', {'form': form})
-    else:
-        form = UserCreationForm()
-        return render(request, 'signup.html', {'form': form})
-
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect('/')
 
-def login_view(request):
+def landing_view(request):
     if request.method == 'POST':
         form1 = AuthenticationForm(request, request.POST)
         form2 = UserCreationForm(request.POST)
@@ -83,16 +69,14 @@ def login_view(request):
             else:
                 print('The username and/or password is incorrect.')
                 return render(request, 'login.html', {'form1': form1, 'form2':form2})
-        else:
-            return render(request, 'login.html', {'form1': form1, 'form2':form2})
-            # raise ValidationError('this is an error')
-        if form2.is_valid():
+        elif form2.is_valid():
             user = form2.save()
             login(request, user)
             print('logging in ', user.username)
             return HttpResponseRedirect('/user/'+str(user))
         else:
             return render(request, 'login.html', {'form1': form1, 'form2':form2})
+            # raise ValidationError('this is an error')
     else:
         form1 = AuthenticationForm()
         form2 = UserCreationForm()
