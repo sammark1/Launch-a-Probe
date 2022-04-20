@@ -16,6 +16,7 @@ from .static.scripts.generator import *
 
 class Landing(TemplateView):
     template_name = "landing.html"
+    
 
 class Launch(TemplateView):
     template_name = "launch.html"
@@ -41,9 +42,12 @@ class System_Create(CreateView):
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
-        self.object.discoverer = self.request.user
 
-        self.object.designation = designation(self.request.user.username)
+        user = self.request.user
+
+        self.object.discoverer = user
+
+        self.object.designation = designation(user.username,System.objects.filter(discoverer=user))
 
         self.object.save()
         return HttpResponseRedirect('/systems')
