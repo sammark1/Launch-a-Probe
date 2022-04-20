@@ -10,7 +10,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from .models import System
 from django.core.exceptions import ValidationError
-from .static.scripts.generator import testing
+from .static.scripts.generator import *
 
 # Views
 
@@ -43,7 +43,7 @@ class System_Create(CreateView):
         self.object = form.save(commit=False)
         self.object.discoverer = self.request.user
 
-        self.object.name = testing()
+        self.object.designation = designation(self.request.user.username)
 
         self.object.save()
         return HttpResponseRedirect('/systems')
