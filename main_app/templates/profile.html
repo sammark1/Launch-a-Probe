@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<h1>{{ username }}'s collection:</h1>
+
+{% for system in systems %}
+<a href="/launch/">
+  <h3>{{ system.name }}</h3>
+</a>
+
+{% endfor %}
+
+{% endblock %}

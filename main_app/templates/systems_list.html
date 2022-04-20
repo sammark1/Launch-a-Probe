@@ -10,5 +10,8 @@
     <h3>Designation: {{system.designation}}</h3>
     <h3>Name: {{system.name}}</h3>
     <h3>Type: {{system.type}}</h3>
+    <p>
+        <a href='/user/{{system.discoverer.username}}'>{{system.discoverer.username}}</a>
+    </p>
     {% endfor %}
 {% endblock %}
