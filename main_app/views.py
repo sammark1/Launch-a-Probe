@@ -9,8 +9,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from .models import System
-
 from django.core.exceptions import ValidationError
+from .static.scripts.generator import *
 
 # Views
 
@@ -35,10 +35,23 @@ class System_View(DetailView):
     template_name = "system_view.html"
 
 class System_Create(CreateView):
-  model = System
-  fields = '__all__'
-  template_name = "system_create.html"
-  success_url = '/launch/'
+    model = System
+    fields = ['system_type']
+    template_name = "system_create.html"
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+
+        user = self.request.user
+
+        self.object.discoverer = user
+
+        self.object.designation = gen_system_designation(user.username,System.objects.filter(discoverer=user))
+
+        self.object.name = gen_system_name()
+
+        self.object.save()
+        return HttpResponseRedirect('/systems')
 
 # ==========USER/AUTH=========
 
@@ -51,7 +64,7 @@ def logout_view(request):
     logout(request)
     return HttpResponseRedirect('/')
 
-def landing_view(request):
+def landing_view(request): #includes login and signup
     if request.method == 'POST':
         form1 = AuthenticationForm(request, request.POST)
         form2 = UserCreationForm(request.POST)

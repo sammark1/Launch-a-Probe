@@ -2,11 +2,11 @@ from django.db import models
 from django.contrib.auth.models import User
 
 SYSTEM_CHOICES = (
-	("s", "solitary star"),
-	("b", "binary system"),
-	("t", "trinary system"),
-    ("cl", "star cluster"),
-    ("sn", "stellar nebula"),
+	("Solitary star", "Solitary star"),
+	("Binary system", "Binary system"),
+	("Trinary system", "Trinary system"),
+    ("Star cluster", "Star cluster"),
+    ("Stellar nebula", "Stellar nebula"),
 )
 
 class System(models.Model):
@@ -14,7 +14,8 @@ class System(models.Model):
     designation = models.CharField(max_length = 60, unique=True)
     name = models.CharField(max_length = 128)
     system_type = models.CharField(max_length = 20, choices = SYSTEM_CHOICES)
-    discoverer = models.ForeignKey(User, on_delete=models.CASCADE)
+    discoverer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='visitors')
+    visitors = models.ManyToManyField(User, related_name='discoverer')
     created_at = models.DateTimeField(auto_now_add = True)
     
     def __str__(self):
