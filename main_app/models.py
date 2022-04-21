@@ -14,7 +14,8 @@ class System(models.Model):
     designation = models.CharField(max_length = 60, unique=True)
     name = models.CharField(max_length = 128)
     system_type = models.CharField(max_length = 20, choices = SYSTEM_CHOICES)
-    discoverer = models.ForeignKey(User, on_delete=models.CASCADE)
+    discoverer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='visitors')
+    visitors = models.ManyToManyField(User, related_name='discoverer')
     created_at = models.DateTimeField(auto_now_add = True)
     
     def __str__(self):

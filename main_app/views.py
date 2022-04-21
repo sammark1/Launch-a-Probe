@@ -64,7 +64,7 @@ def logout_view(request):
     logout(request)
     return HttpResponseRedirect('/')
 
-def landing_view(request):
+def landing_view(request): #includes login and signup
     if request.method == 'POST':
         form1 = AuthenticationForm(request, request.POST)
         form2 = UserCreationForm(request.POST)
