@@ -8,7 +8,7 @@ from django.views.generic import DetailView
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
-from .models import System
+from .models import System, Star_Object
 from django.core.exceptions import ValidationError
 from .static.scripts.generator import *
 
@@ -30,13 +30,19 @@ class Systems_List(TemplateView):
         context["systems"] = System.objects.all()
         return context
 
-class System_View(DetailView):
-    model = System
-    template_name = "system_view.html"
+# class System_View(DetailView):
+#     model = System
+#     template_name = "system_view.html"
+
+def System_View(request, system_id):
+    system = System.objects.get(id=system_id)
+    stars = Star_Object.objects.filter(system=system)
+    return render(request, 'system_view.html', {'system':system,'stars':stars})
+
 
 class System_Create(CreateView):
     model = System
-    fields = ['system_type']
+    fields = ['system_type','visitors']
     template_name = "system_create.html"
 
     def form_valid(self, form):

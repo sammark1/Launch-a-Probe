@@ -8,4 +8,10 @@
 <h1>{{system.designation}}</h1>
 <h1>{{system.name}}</h1>
 <h1>{{system.system_type}}</h1>
+
+<div>
+    {% for star in stars %}
+    <h2>Star : {{star.designation}} | {{star.name}}</h2>
+    {% endfor %}
+</div>
 {% endblock %}
