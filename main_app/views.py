@@ -8,7 +8,7 @@ from django.views.generic import DetailView
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
-from .models import System, Star_Object
+from .models import System, Star_Object, Planetoid
 from django.core.exceptions import ValidationError
 from .static.scripts.generator import *
 
@@ -37,7 +37,8 @@ class Systems_List(TemplateView):
 def System_View(request, system_id):
     system = System.objects.get(id=system_id)
     stars = Star_Object.objects.filter(system=system)
-    return render(request, 'system_view.html', {'system':system,'stars':stars})
+    planetoids = Planetoid.objects.filter(system=system)
+    return render(request, 'system_view.html', {'system':system,'stars':stars, 'planetoids':planetoids})
 
 
 class System_Create(CreateView):

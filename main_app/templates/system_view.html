@@ -13,5 +13,8 @@
     {% for star in stars %}
     <h2>Star : {{star.designation}} | {{star.name}}</h2>
     {% endfor %}
+    {% for planetoid in planetoids %}
+    <h2>Planetoids : {{planetoid.designation}} | {{planetoid.name}}</h2>
+    {% endfor %}
 </div>
 {% endblock %}
