@@ -2,11 +2,11 @@ from django.db import models
 from django.contrib.auth.models import User
 
 SYSTEM_CHOICES = (
-	("s", "solitary star"),
-	("b", "binary system"),
-	("t", "trinary system"),
-    ("cl", "star cluster"),
-    ("sn", "stellar nebula"),
+	("Solitary star", "Solitary star"),
+	("Binary system", "Binary system"),
+	("Trinary system", "Trinary system"),
+    ("Star cluster", "Star cluster"),
+    ("Stellar nebula", "Stellar nebula"),
 )
 
 class System(models.Model):

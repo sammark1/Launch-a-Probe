@@ -46,7 +46,9 @@ class System_Create(CreateView):
 
         self.object.discoverer = user
 
-        self.object.designation = designation(user.username,System.objects.filter(discoverer=user))
+        self.object.designation = gen_system_designation(user.username,System.objects.filter(discoverer=user))
+
+        self.object.name = gen_system_name()
 
         self.object.save()
         return HttpResponseRedirect('/systems')
