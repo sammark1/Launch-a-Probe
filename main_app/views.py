@@ -14,9 +14,8 @@ from .static.scripts.generator import *
 
 # Views
 
-class Landing(TemplateView):
-    template_name = "landing.html"
-    
+# class Landing(TemplateView):
+#     template_name = "landing.html"
 
 class Launch(TemplateView):
     template_name = "launch.html"
@@ -59,30 +58,17 @@ def profile(request, username):
     systems = System.objects.filter(discoverer=user)
     return render(request, 'profile.html', {'username': username, 'systems': systems})
 
-def signup_view(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            print('logging in ', user.username)
-            return HttpResponseRedirect('/user/'+str(user))
-        else:
-            return render(request, 'signup.html', {'form': form})
-    else:
-        form = UserCreationForm()
-        return render(request, 'signup.html', {'form': form})
-
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect('/')
 
-def login_view(request):
+def landing_view(request):
     if request.method == 'POST':
-        form = AuthenticationForm(request, request.POST)
-        if form.is_valid():
-            u = form.cleaned_data['username']
-            p = form.cleaned_data['password']
+        form1 = AuthenticationForm(request, request.POST)
+        form2 = UserCreationForm(request.POST)
+        if form1.is_valid():
+            u = form1.cleaned_data['username']
+            p = form1.cleaned_data['password']
             user = authenticate(username = u, password = p)
             if user is not None:
                 if user.is_active:
@@ -90,14 +76,20 @@ def login_view(request):
                     return HttpResponseRedirect('/user/'+u)
                 else:
                     print('The account has been disabled.')
-                    return render(request, 'login.html', {'form': form})
+                    return render(request, 'login.html', {'form1': form1, 'form2':form2})
             else:
                 print('The username and/or password is incorrect.')
-                return render(request, 'login.html', {'form': form})
+                return render(request, 'login.html', {'form1': form1, 'form2':form2})
+        elif form2.is_valid():
+            user = form2.save()
+            login(request, user)
+            print('logging in ', user.username)
+            return HttpResponseRedirect('/user/'+str(user))
         else:
-            return render(request, 'login.html', {'form': form})
+            return render(request, 'login.html', {'form1': form1, 'form2':form2})
             # raise ValidationError('this is an error')
     else:
-        form = AuthenticationForm()
-        return render(request, 'login.html', {'form': form})
+        form1 = AuthenticationForm()
+        form2 = UserCreationForm()
+        return render(request, 'login.html', {'form1': form1, 'form2':form2})
 
