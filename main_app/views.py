@@ -36,7 +36,7 @@ class System_View(DetailView):
 
 class System_Create(CreateView):
     model = System
-    fields = ['designation','name','system_type']
+    fields = ['system_type']
     template_name = "system_create.html"
 
     def form_valid(self, form):
