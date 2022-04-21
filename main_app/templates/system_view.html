@@ -11,7 +11,9 @@
 
 <div>
     {% for star in stars %}
-    <h2>Star : {{star.designation}} | {{star.name}}</h2>
+    <a href="{% url 'Star_View' star.id %}">
+        <h2>Star : {{star.designation}} | {{star.name}}</h2>
+    </a>
     {% endfor %}
     {% for planetoid in planetoids %}
     <h2>Planetoids : {{planetoid.designation}} | {{planetoid.name}}</h2>

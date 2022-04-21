@@ -19,6 +19,13 @@ from .static.scripts.generator import *
 
 class Launch(TemplateView):
     template_name = "launch.html"
+# =========STAR OBJECTS=======
+
+def Star_View(request, star_id):
+    star = Star_Object.objects.get(id=star_id)
+    system = System.objects.get(name=star.system.name)
+    discoverer = User.objects.get(username=system.discoverer)
+    return render(request, 'star_view.html', {'star':star,'system':system,'discoverer':discoverer})
 
 # ===========SYSTEMS==========
 
