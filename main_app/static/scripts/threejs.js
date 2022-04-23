@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import render_data from './render_data.json' assert {type:'json'}
 
 const displayZone = [innerWidth,innerHeight];
 
@@ -16,7 +17,7 @@ const light3 = new THREE.PointLight( 0x2000ff, .5, 100 )
 const testAmbLight = new THREE.AmbientLight( 0x500070, .25 )
 
 const icosphere = new THREE.IcosahedronGeometry(1,0);
-const icoMaterial = new THREE.MeshPhongMaterial({color: 0xffffff});
+const icoMaterial = new THREE.MeshPhongMaterial({color: render_data.bodyColor});
 //const icoMaterial = new THREE.LineBasicMaterial();
 const icoplanet = new THREE.Mesh(icosphere,icoMaterial);
 
@@ -48,3 +49,5 @@ function animate () {
 
 
 animate()
+
+console.log(render_data)

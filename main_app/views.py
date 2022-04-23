@@ -11,6 +11,7 @@ from django.contrib.auth.models import User
 from .models import System, Star_Object, Planetoid
 from django.core.exceptions import ValidationError
 from .static.scripts.generator import *
+import json
 
 
 
@@ -64,6 +65,14 @@ class Systems_List(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["systems"] = System.objects.all()
+
+        render_data={
+            'bodyColor':0x00ffff,
+        }
+        f = open("main_app/static/scripts/render_data.json", "w")
+        f.write(json.dumps(render_data))
+        f.close()
+
         return context
 
 # class System_View(DetailView):
@@ -100,10 +109,6 @@ class System_Create(CreateView):
 
         # ANCHOR planet creation
         Planet_Create(self.object)
-
-        # test={'test':'test success'}
-        # with open(render_data.json, w)as outfile:
-        #     json.dump(test, outfile)
  
         return HttpResponseRedirect('/systems')
 
