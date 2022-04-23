@@ -12,6 +12,8 @@ from .models import System, Star_Object, Planetoid
 from django.core.exceptions import ValidationError
 from .static.scripts.generator import *
 
+
+
 # Views
 
 # class Landing(TemplateView):
@@ -29,7 +31,7 @@ def Star_View(request, star_id):
 
 def Star_Create(system):
     star_instance=Star_Object.objects.create(
-        designation="testE",
+        designation=gen_star_designation(system),
         name="testE",
         mass=10,
         system_id=system.id,
@@ -46,7 +48,7 @@ def Planetoid_View(request, planetoid_id):
 
 def Planet_Create(system):
     planetoid_instance=Planetoid.objects.create(
-        designation="test_AB",
+        designation=gen_planet_designation(system),
         name="test_AB",
         mass=199,
         system_id=system.id,
@@ -99,6 +101,10 @@ class System_Create(CreateView):
         # ANCHOR planet creation
         Planet_Create(self.object)
 
+        # test={'test':'test success'}
+        # with open(render_data.json, w)as outfile:
+        #     json.dump(test, outfile)
+ 
         return HttpResponseRedirect('/systems')
 
 
