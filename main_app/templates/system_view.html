@@ -16,7 +16,9 @@
     </a>
     {% endfor %}
     {% for planetoid in planetoids %}
-    <h2>Planetoids : {{planetoid.designation}} | {{planetoid.name}}</h2>
+    <a href="{% url 'Planetoid_View' planetoid.id %}">
+        <h2>Planetoids : {{planetoid.designation}} | {{planetoid.name}}</h2>
+    </a>
     {% endfor %}
 </div>
 {% endblock %}
