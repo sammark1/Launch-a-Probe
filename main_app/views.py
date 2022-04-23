@@ -29,8 +29,8 @@ def Star_View(request, star_id):
 
 def Star_Create(system):
     star_instance=Star_Object.objects.create(
-        designation="testC",
-        name="testC",
+        designation="testE",
+        name="testE",
         mass=10,
         system_id=system.id,
         )
@@ -43,6 +43,15 @@ def Planetoid_View(request, planetoid_id):
     system = System.objects.get(name=planetoid.system.name)
     discoverer = User.objects.get(username=system.discoverer)
     return render(request, 'planet_view.html', {'planetoid':planetoid,'system':system,'discoverer':discoverer})
+
+def Planet_Create(system):
+    planetoid_instance=Planetoid.objects.create(
+        designation="test_AB",
+        name="test_AB",
+        mass=199,
+        system_id=system.id,
+        )
+    planetoid_instance.save()
 
 
 # ===========SYSTEMS==========
