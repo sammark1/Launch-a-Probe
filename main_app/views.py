@@ -27,6 +27,17 @@ def Star_View(request, star_id):
     discoverer = User.objects.get(username=system.discoverer)
     return render(request, 'star_view.html', {'star':star,'system':system,'discoverer':discoverer})
 
+def Star_Create(system):
+    star_instance=Star_Object.objects.create(
+        designation="testB",
+        name="testB",
+        mass=10,
+        system_id=system.id,
+        )
+    star_instance.save()
+
+# =====PLANETOID OBJECTS======
+
 # ===========SYSTEMS==========
 
 class Systems_List(TemplateView):
@@ -50,7 +61,7 @@ def System_View(request, system_id):
 
 class System_Create(CreateView):
     model = System
-    fields = ['system_type','visitors']
+    fields = ['system_type']
     template_name = "system_create.html"
 
     def form_valid(self, form):
@@ -65,7 +76,15 @@ class System_Create(CreateView):
         self.object.name = gen_system_name()
 
         self.object.save()
+        
+        # ANCHOR star creation TODO make system adaptive to system stars
+        Star_Create(self.object)
+
+        # ANCHOR planet creation
+        Planet_Create(self.object)
+
         return HttpResponseRedirect('/systems')
+
 
 # ==========USER/AUTH=========
 
