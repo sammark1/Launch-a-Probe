@@ -88,7 +88,7 @@ def System_View(request, system_id):
 
 class System_Create(CreateView):
     model = System
-    fields = ['system_type']
+    fields = []
     template_name = "system_create.html"
 
     def form_valid(self, form):
@@ -112,7 +112,7 @@ class System_Create(CreateView):
         # ANCHOR planet creation
         Planet_Create(self.object)
  
-        return HttpResponseRedirect('/systems')
+        return HttpResponseRedirect(f'/system/{self.object.id}')
 
 
 # ==========USER/AUTH=========
