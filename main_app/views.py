@@ -46,9 +46,9 @@ def Star_View(request, star_id):
         form = Star_Update_Form() #may need args
         return render(request, 'star_view.html', {'system':system,'star':star, 'discoverer':discoverer, 'form':form})
 
-def Star_Create(system):
+def Star_Create(system, star_index):
     star_instance=Star_Object.objects.create(
-        designation=gen_star_designation(system),
+        designation=gen_star_designation(system, star_index),
         name="testE",
         mass=10,
         system_id=system.id,
@@ -174,8 +174,10 @@ class System_Create(CreateView):
 
         self.object.save()
         
-        # ANCHOR star creation TODO make system adaptive to system stars
-        Star_Create(self.object)
+        # star creation
+        num_stars = get_system_stars(self.object.system_type)
+        for index in range(num_stars):
+            Star_Create(self.object, index)
 
         # ANCHOR planet creation
         Planet_Create(self.object)
