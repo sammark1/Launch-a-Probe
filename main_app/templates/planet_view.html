@@ -8,6 +8,16 @@
 <h1>{{planetoid.designation}}</h1>
 <h1>{{planetoid.name}}</h1>
 
+{% if user.is_authenticated and user.id == system.discoverer.id%}
+    <div id="planetNameEdit">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Confirm</button>
+        </form>
+    </div>
+{% endif %}
+
 <a href="{% url 'System_View' system.id %}"><h1>system:{{system.designation}}</h1></a>
 
 <a href="{% url 'profile' discoverer.username %}"><h1>discoverer:{{discoverer.username}}</h1></a>

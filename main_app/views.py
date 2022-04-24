@@ -57,12 +57,26 @@ def Star_Create(system):
 
 # =====PLANETOID OBJECTS======
 
+class Planet_Update_Form(ModelForm):
+    class Meta:
+        model = Planetoid
+        fields=['name']
+
 def Planetoid_View(request, planetoid_id):
     planetoid = Planetoid.objects.get(id=planetoid_id)
     system = System.objects.get(name=planetoid.system.name)
     discoverer = User.objects.get(username=system.discoverer)
-    return render(request, 'planet_view.html', {'planetoid':planetoid,'system':system,'discoverer':discoverer})
-
+    if request.method == 'POST':
+        form = Planet_Update_Form(request.POST)
+        if form.is_valid():
+            planetoid.name = form.cleaned_data['name']
+            planetoid.save()
+            return HttpResponseRedirect(f'/planet/{planetoid_id}')
+        else:
+            return render(request, 'planet_view.html', {'system':system,'planetoid':planetoid, 'discoverer':discoverer, 'form':form})
+    else:
+        form = Planet_Update_Form() #may need args
+        return render(request, 'planet_view.html', {'system':system,'planetoid':planetoid, 'discoverer':discoverer, 'form':form})
 def Planet_Create(system):
     planetoid_instance=Planetoid.objects.create(
         designation=gen_planet_designation(system),
