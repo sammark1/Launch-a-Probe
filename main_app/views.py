@@ -11,6 +11,7 @@ from django.contrib.auth.models import User
 from .models import System, Star_Object, Planetoid
 from django.core.exceptions import ValidationError
 from .static.scripts.generator import *
+from django.forms import ModelForm
 import json
 
 
@@ -82,13 +83,46 @@ class Systems_List(TemplateView):
 # class System_View(DetailView):
 #     model = System
 #     template_name = "system_view.html"
+class System_Update_Form(ModelForm):
+    class Meta:
+        model = System
+        fields=['name']
 
 def System_View(request, system_id):
     system = System.objects.get(id=system_id)
     stars = Star_Object.objects.filter(system=system)
     planetoids = Planetoid.objects.filter(system=system)
-    return render(request, 'system_view.html', {'system':system,'stars':stars, 'planetoids':planetoids})
+    if request.method == 'POST':
+        form = System_Update_Form(request.POST)
+        if form.is_valid():
+            system.name = form.cleaned_data['name']
+            system.save()
+            return HttpResponseRedirect(f'/system/{system_id}')
+        else:
+            return render(request, 'system_view.html', {'system':system,'stars':stars, 'planetoids':planetoids, 'form':form})
+    else:
+        form = System_Update_Form() #may need args
+        return render(request, 'system_view.html', {'system':system,'stars':stars, 'planetoids':planetoids, 'form':form})
 
+# def profile_update(request, username):
+#     if request.method == 'POST':
+#         form= Profile_Update_Form(request.POST)
+#         found_user=User.objects.get(username=username)
+#         recipient=Recipient.objects.get(user=found_user)
+#         # print(user.username)
+#         if form.is_valid():
+#             # form.save()
+#             biography = form.cleaned_data['bio']
+#             Recipient.objects.filter(user=found_user).update(bio=biography)
+#             # Recipient.objects.update(user=found_user, bio=biography)
+#             return HttpResponseRedirect('/home')
+#         else:
+#             return render(request, 'profile_edit.html', {'form': form})
+#     else:
+#         user=User.objects.get(username=username)
+#         recipient=Recipient.objects.get(user=user)
+#         form=Profile_Update_Form(instance=recipient)
+#         return render(request, 'profile_edit.html', {'form': form})
 
 class System_Create(CreateView):
     model = System

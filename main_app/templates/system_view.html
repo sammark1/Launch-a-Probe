@@ -5,7 +5,9 @@
 {% endblock %}
 
 {% block body %}
+<h1>System Designation: </h1>
 <h1>{{system.designation}}</h1>
+<h1>System Name: </h1>
 <h1>{{system.name}}</h1>
 <h1>{{system.system_type}}</h1>
 
@@ -22,5 +24,10 @@
         <h2>{{planetoid.designation}}</h2>
     </a>
     {% endfor %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Confirm</button>
+      </form>
 </div>
 {% endblock %}
