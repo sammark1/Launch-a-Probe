@@ -1,5 +1,5 @@
-from random import *
 import math
+import random
 
 def testing(username):
     return username
@@ -24,15 +24,15 @@ def gen_system_name():
     name=""
     sounds = ["ab","al","an","ta","ir","ri","gel","be","tel","ge","po","lar","is","wo","olf","eri","da","ni","us","si","sa","gi","ta","ri","us","dro","mi","dae","ce","ti","le","on","is","la","ce","ra","tae"]
     letters = ["alpha", "beta", "gamma", "delta", "epsilon", "zeta", "eta", "theta", "iota", "kappa", "lambda", "mu", "nu", "xi", "omicron", "pi", "rho", "sigma", "tau", "upsilon", "phi", "chi", "psi", "omega", "aleph", "bet", "giml", "dalet", "hē", "wāw", "zajin", "hēt", "tēt", "yod", "kāp", "iāmed", "mēm", "nūn", "śāmek", "ayin", "pē", "ṩādē", "qōp", "rēs", "šīn", "tāw"]
-    phrases  = int(math.floor(random()*2)+2)
+    phrases  = int(math.floor(random.random()*2)+2)
     for index, x in enumerate(range(phrases)):
-        segments = int(math.floor(random()*2)+2)
+        segments = int(math.floor(random.random()*2)+2)
         phrase=""
         if index == 0 and phrases >= 3:
-            phrase = letters[int(random()*len(letters))]
+            phrase = letters[int(random.random()*len(letters))]
         else:
             for jndex, y in enumerate(range(segments)):
-                phrase=f"{phrase}{sounds[int(random()*len(sounds))]}"
+                phrase=f"{phrase}{sounds[int(random.random()*len(sounds))]}"
         name=f"{name}{phrase.capitalize()} "
     return name
 
@@ -42,9 +42,9 @@ def gen_system_type():
     return out[0]
 
 def gen_star_designation(system): 
-    return(f"{system.designation}-{math.floor(random()*100)}")
+    return(f"{system.designation}-{math.floor(random.random()*100)}")
 # FIXME TEMPORARY
 
 def gen_planet_designation(system): 
-    return(f"{system.designation}-{math.floor(random()*100)}")
+    return(f"{system.designation}-{math.floor(random.random()*100)}")
 # FIXME TEMPORARY
