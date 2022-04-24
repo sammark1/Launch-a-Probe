@@ -5,7 +5,13 @@
 {% endblock %}
 
 {% block body %}
-<h1>Systems List</h1>
+<h1>Systems Search</h1>
+<form>
+    <div>
+        <input type="text" name="search" placeholder="search for systems"/>
+        <input type="submit" value="Search"/>
+    </div>
+</form>
 {% for system in systems %}
     <a href="{% url 'System_View' system.id %}">
         <h3>Designation: {{system.designation}}</h3>

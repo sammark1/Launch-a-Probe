@@ -64,10 +64,14 @@ class Systems_List(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["systems"] = System.objects.all()
+        search=self.request.GET.get('search')
+        if search !=None:
+            context["systems"] = System.objects.filter(name__icontains=search)
+        else:
+            context["systems"] = System.objects.all()
 
         render_data={
-            'bodyColor':0xffffff,
+            'bodyColor':0xffff00,
         }
         f = open("main_app/static/scripts/render_data.json", "w")
         f.write(json.dumps(render_data))
