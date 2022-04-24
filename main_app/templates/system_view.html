@@ -8,4 +8,17 @@
 <h1>{{system.designation}}</h1>
 <h1>{{system.name}}</h1>
 <h1>{{system.system_type}}</h1>
+
+<div>
+    {% for star in stars %}
+    <a href="{% url 'Star_View' star.id %}">
+        <h2>Star : {{star.designation}} | {{star.name}}</h2>
+    </a>
+    {% endfor %}
+    {% for planetoid in planetoids %}
+    <a href="{% url 'Planetoid_View' planetoid.id %}">
+        <h2>Planetoids : {{planetoid.designation}} | {{planetoid.name}}</h2>
+    </a>
+    {% endfor %}
+</div>
 {% endblock %}
