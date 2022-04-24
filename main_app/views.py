@@ -18,9 +18,6 @@ import json
 
 # Views
 
-# class Landing(TemplateView):
-#     template_name = "landing.html"
-
 class Launch(TemplateView):
     template_name = "launch.html"
 # =========STAR OBJECTS=======
@@ -46,10 +43,11 @@ def Star_View(request, star_id):
         form = Star_Update_Form() #may need args
         return render(request, 'star_view.html', {'system':system,'star':star, 'discoverer':discoverer, 'form':form})
 
+# TODO generate 
 def Star_Create(system, star_index):
     star_instance=Star_Object.objects.create(
         designation=gen_star_designation(system, star_index),
-        name="testE",
+        name="testE", 
         mass=10,
         system_id=system.id,
         )
@@ -77,9 +75,11 @@ def Planetoid_View(request, planetoid_id):
     else:
         form = Planet_Update_Form() #may need args
         return render(request, 'planet_view.html', {'system':system,'planetoid':planetoid, 'discoverer':discoverer, 'form':form})
-def Planet_Create(system):
+
+# TODO planet generation details
+def Planet_Create(system, planet_index):
     planetoid_instance=Planetoid.objects.create(
-        designation=gen_planet_designation(system),
+        designation=gen_planet_designation(system, planet_index),
         name="test_AB",
         mass=199,
         system_id=system.id,
@@ -174,13 +174,15 @@ class System_Create(CreateView):
 
         self.object.save()
         
-        # star creation
+        # ANCHOR star creation
         num_stars = get_system_stars(self.object.system_type)
         for index in range(num_stars):
             Star_Create(self.object, index)
 
         # ANCHOR planet creation
-        Planet_Create(self.object)
+        num_planets = get_system_planets(self.object.system_type)
+        for index in range(num_planets):
+            Planet_Create(self.object, index)
  
         return HttpResponseRedirect(f'/system/{self.object.id}')
 

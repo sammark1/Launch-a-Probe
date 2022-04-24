@@ -17,6 +17,15 @@ def get_system_stars(system_type):
         case "Stellar nebula":
             return int(math.floor(random.random()*6)+6)
 
+def get_system_planets(system_type):
+    match system_type:
+        case "Solitary star" | "Binary system" | "Trinary system":
+            return int(math.floor(random.random()*12))
+        case "Star cluster":
+            return int(math.floor(random.random()*2))
+        case "Stellar nebula":
+            return int(math.floor(random.random()*6))
+
 def gen_system_designation(username,systems):
     # currently no redundancy filter
     return f"{(username[0:2]).upper()}-{str(len(systems)+1).rjust(5,'0')}"
@@ -59,6 +68,6 @@ def gen_star_designation(system, star_index):
     return(f"{system.designation}-{suffix[star_index]}")
 # FIXME TEMPORARY
 
-def gen_planet_designation(system): 
-    return(f"{system.designation}-{math.floor(random.random()*100)}")
+def gen_planet_designation(system, planet_index): 
+    return(f"{system.designation}-{planet_index}")
 # FIXME TEMPORARY
