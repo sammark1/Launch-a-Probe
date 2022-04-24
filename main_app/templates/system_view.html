@@ -24,10 +24,14 @@
         <h2>{{planetoid.designation}}</h2>
     </a>
     {% endfor %}
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Confirm</button>
-      </form>
+    {% if user.is_authenticated and user.id == system.discoverer.id%}
+    <div>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Confirm</button>
+        </form>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}
