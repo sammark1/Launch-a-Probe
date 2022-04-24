@@ -10,6 +10,16 @@
 <h1>{{star.stellar_class}}</h1>
 <h1>{{star.mass}}</h1>
 
+{% if user.is_authenticated and user.id == system.discoverer.id%}
+    <div id="systemNameEdit">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Confirm</button>
+        </form>
+    </div>
+{% endif %}
+
 <a href="{% url 'System_View' system.id %}"><h1>system:{{system.designation}}</h1></a>
 
 <a href="{% url 'profile' discoverer.username %}"><h1>discoverer:{{discoverer.username}}</h1></a>

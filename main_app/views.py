@@ -25,11 +25,26 @@ class Launch(TemplateView):
     template_name = "launch.html"
 # =========STAR OBJECTS=======
 
+class Star_Update_Form(ModelForm):
+    class Meta:
+        model = Star_Object
+        fields=['name']
+
 def Star_View(request, star_id):
     star = Star_Object.objects.get(id=star_id)
     system = System.objects.get(name=star.system.name)
     discoverer = User.objects.get(username=system.discoverer)
-    return render(request, 'star_view.html', {'star':star,'system':system,'discoverer':discoverer})
+    if request.method == 'POST':
+        form = Star_Update_Form(request.POST)
+        if form.is_valid():
+            star.name = form.cleaned_data['name']
+            star.save()
+            return HttpResponseRedirect(f'/star/{star_id}')
+        else:
+            return render(request, 'star_view.html', {'system':system,'star':star, 'discoverer':discoverer, 'form':form})
+    else:
+        form = Star_Update_Form() #may need args
+        return render(request, 'star_view.html', {'system':system,'star':star, 'discoverer':discoverer, 'form':form})
 
 def Star_Create(system):
     star_instance=Star_Object.objects.create(
@@ -104,6 +119,7 @@ def System_View(request, system_id):
         form = System_Update_Form() #may need args
         return render(request, 'system_view.html', {'system':system,'stars':stars, 'planetoids':planetoids, 'form':form})
 
+# TODO DELETEME
 # def profile_update(request, username):
 #     if request.method == 'POST':
 #         form= Profile_Update_Form(request.POST)

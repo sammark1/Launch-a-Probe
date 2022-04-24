@@ -25,7 +25,7 @@
     </a>
     {% endfor %}
     {% if user.is_authenticated and user.id == system.discoverer.id%}
-    <div>
+    <div id="systemNameEdit">
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
