@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>{{planetoid.designation}}</title>
+{% endblock %}
+
+{% block body %}
+<h1>{{planetoid.designation}}</h1>
+<h1>{{planetoid.name}}</h1>
+
+<a href="{% url 'System_View' system.id %}"><h1>system:{{system.designation}}</h1></a>
+
+<a href="{% url 'profile' discoverer.username %}"><h1>discoverer:{{discoverer.username}}</h1></a>
+
+{% endblock %}

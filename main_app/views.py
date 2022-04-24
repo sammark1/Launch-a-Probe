@@ -8,9 +8,12 @@ from django.views.generic import DetailView
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
-from .models import System
+from .models import System, Star_Object, Planetoid
 from django.core.exceptions import ValidationError
 from .static.scripts.generator import *
+import json
+
+
 
 # Views
 
@@ -19,6 +22,40 @@ from .static.scripts.generator import *
 
 class Launch(TemplateView):
     template_name = "launch.html"
+# =========STAR OBJECTS=======
+
+def Star_View(request, star_id):
+    star = Star_Object.objects.get(id=star_id)
+    system = System.objects.get(name=star.system.name)
+    discoverer = User.objects.get(username=system.discoverer)
+    return render(request, 'star_view.html', {'star':star,'system':system,'discoverer':discoverer})
+
+def Star_Create(system):
+    star_instance=Star_Object.objects.create(
+        designation=gen_star_designation(system),
+        name="testE",
+        mass=10,
+        system_id=system.id,
+        )
+    star_instance.save()
+
+# =====PLANETOID OBJECTS======
+
+def Planetoid_View(request, planetoid_id):
+    planetoid = Planetoid.objects.get(id=planetoid_id)
+    system = System.objects.get(name=planetoid.system.name)
+    discoverer = User.objects.get(username=system.discoverer)
+    return render(request, 'planet_view.html', {'planetoid':planetoid,'system':system,'discoverer':discoverer})
+
+def Planet_Create(system):
+    planetoid_instance=Planetoid.objects.create(
+        designation=gen_planet_designation(system),
+        name="test_AB",
+        mass=199,
+        system_id=system.id,
+        )
+    planetoid_instance.save()
+
 
 # ===========SYSTEMS==========
 
@@ -28,11 +65,26 @@ class Systems_List(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["systems"] = System.objects.all()
+
+        render_data={
+            'bodyColor':0xffffff,
+        }
+        f = open("main_app/static/scripts/render_data.json", "w")
+        f.write(json.dumps(render_data))
+        f.close()
+
         return context
 
-class System_View(DetailView):
-    model = System
-    template_name = "system_view.html"
+# class System_View(DetailView):
+#     model = System
+#     template_name = "system_view.html"
+
+def System_View(request, system_id):
+    system = System.objects.get(id=system_id)
+    stars = Star_Object.objects.filter(system=system)
+    planetoids = Planetoid.objects.filter(system=system)
+    return render(request, 'system_view.html', {'system':system,'stars':stars, 'planetoids':planetoids})
+
 
 class System_Create(CreateView):
     model = System
@@ -49,9 +101,19 @@ class System_Create(CreateView):
         self.object.designation = gen_system_designation(user.username,System.objects.filter(discoverer=user))
 
         self.object.name = gen_system_name()
+        
+        self.object.system_type = gen_system_type()
 
         self.object.save()
+        
+        # ANCHOR star creation TODO make system adaptive to system stars
+        Star_Create(self.object)
+
+        # ANCHOR planet creation
+        Planet_Create(self.object)
+ 
         return HttpResponseRedirect('/systems')
+
 
 # ==========USER/AUTH=========
 
