@@ -67,7 +67,7 @@ class Systems_List(TemplateView):
         context["systems"] = System.objects.all()
 
         render_data={
-            'bodyColor':0x00ffff,
+            'bodyColor':0xffffff,
         }
         f = open("main_app/static/scripts/render_data.json", "w")
         f.write(json.dumps(render_data))
@@ -101,6 +101,8 @@ class System_Create(CreateView):
         self.object.designation = gen_system_designation(user.username,System.objects.filter(discoverer=user))
 
         self.object.name = gen_system_name()
+        
+        self.object.system_type = gen_system_type()
 
         self.object.save()
         

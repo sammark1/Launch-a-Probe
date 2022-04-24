@@ -1,4 +1,4 @@
-from random import random
+from random import *
 import math
 
 def testing(username):
@@ -35,6 +35,11 @@ def gen_system_name():
                 phrase=f"{phrase}{sounds[int(random()*len(sounds))]}"
         name=f"{name}{phrase.capitalize()} "
     return name
+
+def gen_system_type():
+    system_choices = ["Solitary star", "Binary system","Trinary system", "Star cluster", "Stellar nebula"]
+    out = random.choices(system_choices, weights=(20,20,20,20,20))
+    return out[0]
 
 def gen_star_designation(system): 
     return(f"{system.designation}-{math.floor(random()*100)}")
