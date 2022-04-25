@@ -96,7 +96,7 @@ def gen_star_details(system):
     "White Dwarf",
     ]
     star_type = random.choices(star_choices, weights=(1,0.5,0.5,1.5,0.5,5,18,16,14,12,10,8,6,3,2,2))
-    print("Gen Star Type: ", star_type[0])
+    # print("Gen Star Type: ", star_type[0])
     match star_type[0]:
         case "blue-white supergiant" | "yellow supergiant" | "red supergiant":
             star_mass = random.random()*150+8
@@ -126,4 +126,21 @@ def gen_star_details(system):
 
 def gen_planet_designation(system, planet_index): 
     return f"{system.designation}-{str(planet_index).rjust(2,'0')}"
-# FIXME TEMPORARY
+
+def gen_planet_details(system):
+    planet_choices = [
+    "gas giant",
+    "rocky planet",
+    "dwarf planet",
+    ]
+    planet_type = random.choices(planet_choices, weights=(25,33,42))
+    print("Gen Planet Type: ", planet_type[0])
+    match planet_type[0]:
+        case "gas giant":
+            planet_mass = random.random()*100+317.82838
+        case "rocky planet":
+            planet_mass = random.random()*2+.5
+        case "dwarf planet":
+            planet_mass = random.random()*0.5+.1
+    # potential for luminosity
+    return [planet_type[0],planet_mass]

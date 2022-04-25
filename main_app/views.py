@@ -81,10 +81,12 @@ def Planetoid_View(request, planetoid_id):
 
 # TODO planet generation details
 def Planet_Create(system, planet_index):
+    planet_details = gen_planet_details(system)
     planetoid_instance=Planetoid.objects.create(
         designation=gen_planet_designation(system, planet_index),
         name="test_AB",
-        mass=199,
+        body_type=planet_details[0],
+        mass=planet_details[1],
         system_id=system.id,
         )
     planetoid_instance.save()
