@@ -1,6 +1,10 @@
 import math
 import random
 
+sounds = ["ab","al","an","ta","ir","ri","gel","be","tel","ge","po","lar","is","wo","olf","eri","da","ni","us","si","sa","gi","ta","ri","dro","mi","dae","ce","ti","le","on","is","la","ce","ra","tae","cas","si","pei","a","scor","pi","os","can","cer","o","ma","jor","me","da","tau","rus","ly","ser","pens","aqu","ar","i","dra","co","del","phin","ceph","cap","cor","nus","phoe","nix","vul","pe","cu"]
+letters = ["alpha", "beta", "gamma", "delta", "epsilon", "zeta", "eta", "theta", "iota", "kappa", "lambda", "mu", "nu", "xi", "omicron", "pi", "rho", "sigma", "tau", "upsilon", "phi", "chi", "psi", "omega", "aleph", "bet", "giml", "dalet"]
+
+
 def testing(username):
     return username
 
@@ -45,8 +49,6 @@ def gen_system_designation(username,systems):
 
 def gen_system_name():
     name=""
-    sounds = ["ab","al","an","ta","ir","ri","gel","be","tel","ge","po","lar","is","wo","olf","eri","da","ni","us","si","sa","gi","ta","ri","us","dro","mi","dae","ce","ti","le","on","is","la","ce","ra","tae"]
-    letters = ["alpha", "beta", "gamma", "delta", "epsilon", "zeta", "eta", "theta", "iota", "kappa", "lambda", "mu", "nu", "xi", "omicron", "pi", "rho", "sigma", "tau", "upsilon", "phi", "chi", "psi", "omega", "aleph", "bet", "giml", "dalet", "hē", "wāw", "zajin", "hēt", "tēt", "yod", "kāp", "iāmed", "mēm", "nūn", "śāmek", "ayin", "pē", "ṩādē", "qōp", "rēs", "šīn", "tāw"]
     phrases  = int(math.floor(random.random()*2)+2)
     for index, x in enumerate(range(phrases)):
         segments = int(math.floor(random.random()*2)+2)
@@ -67,7 +69,12 @@ def gen_system_type():
 def gen_star_designation(system, star_index):
     suffix = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',] 
     return(f"{system.designation}-{suffix[star_index]}")
-# FIXME TEMPORARY
+
+def gen_star_name(system, star_index):
+    system_names=system.name.split()
+    name=f"{letters[star_index].capitalize()} {system_names[len(system_names)-1].capitalize()}{sounds[int(random.random()*len(sounds))]}"
+    print("name: ", name)
+    return name
 
 def gen_planet_designation(system, planet_index): 
     return(f"{system.designation}-{str(planet_index).rjust(2,'0')}")

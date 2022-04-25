@@ -48,7 +48,8 @@ def Star_View(request, star_id):
 def Star_Create(system, star_index):
     star_instance=Star_Object.objects.create(
         designation=gen_star_designation(system, star_index),
-        name="testE", 
+        name=gen_star_name(system, star_index),
+        stellar_class="something", 
         mass=10,
         system_id=system.id,
         )
