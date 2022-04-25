@@ -76,7 +76,7 @@ def gen_star_name(system, star_index):
     print("name: ", name)
     return name
 
-def gen_star_type(system):
+def gen_star_details(system):
     star_choices = [
     "blue-white supergiant",
     "yellow supergiant",
@@ -95,8 +95,34 @@ def gen_star_type(system):
     "brown dwarf",
     "White Dwarf",
     ]
-    out = random.choices(star_choices, weights=(1,0.5,0.5,1.5,0.5,5,18,16,14,12,10,8,6,3,2,2))
-    return out[0]
+    star_type = random.choices(star_choices, weights=(1,0.5,0.5,1.5,0.5,5,18,16,14,12,10,8,6,3,2,2))
+    print("Gen Star Type: ", star_type[0])
+    match star_type[0]:
+        case "blue-white supergiant" | "yellow supergiant" | "red supergiant":
+            star_mass = random.random()*150+8
+        case "blue-white giant" | "yellow giant" | "red giant":
+            star_mass = random.random()*120.75+0.25
+        case "main sequence O-spectrum":
+            star_mass = random.random()*119.9+0.10
+        case "main sequence B-spectrum":
+            star_mass = random.random()*60.9+0.10
+        case "main sequence A-spectrum":
+            star_mass = random.random()*35.9+0.10
+        case "main sequence F-spectrum":
+            star_mass = random.random()*20.9+0.10
+        case "main sequence G-spectrum":
+            star_mass = random.random()*9.9+0.10
+        case "main sequence K-spectrum":
+            star_mass = random.random()*3.9+0.10
+        case "main sequence M-spectrum":
+            star_mass = random.random()*2.9+0.10
+        case "White Dwarf":
+            star_mass = random.random()*1.05+0.15
+        case "red dwarf" | "brown dwarf":
+            star_mass = random.random()*0.075+0.009
+    # potential for luminosity
+    return [star_type[0],star_mass]
+
 
 def gen_planet_designation(system, planet_index): 
     return f"{system.designation}-{str(planet_index).rjust(2,'0')}"

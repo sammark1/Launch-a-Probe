@@ -46,11 +46,12 @@ def Star_View(request, star_id):
 
 # TODO generate 
 def Star_Create(system, star_index):
+    star_details = gen_star_details(system)
     star_instance = Star_Object.objects.create(
         designation = gen_star_designation(system, star_index),
         name = gen_star_name(system, star_index),
-        stellar_class = gen_star_type(system), 
-        mass = 10,
+        stellar_class = star_details[0], 
+        mass = star_details[1],
         system_id = system.id,
         )
     star_instance.save()
