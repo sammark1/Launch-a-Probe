@@ -76,6 +76,28 @@ def gen_star_name(system, star_index):
     print("name: ", name)
     return name
 
+def gen_star_type(system):
+    star_choices = [
+    "blue-white supergiant",
+    "yellow supergiant",
+    "red supergiant",
+	"blue-white giant",
+    "yellow giant",
+    "red giant",
+    "main sequence O-spectrum",
+    "main sequence B-spectrum",
+    "main sequence A-spectrum",
+    "main sequence F-spectrum",
+    "main sequence G-spectrum",
+    "main sequence K-spectrum",
+    "main sequence M-spectrum",
+    "red dwarf",
+    "brown dwarf",
+    "White Dwarf",
+    ]
+    out = random.choices(star_choices, weights=(1,0.5,0.5,1.5,0.5,5,18,16,14,12,10,8,6,3,2,2))
+    return out[0]
+
 def gen_planet_designation(system, planet_index): 
-    return(f"{system.designation}-{str(planet_index).rjust(2,'0')}")
+    return f"{system.designation}-{str(planet_index).rjust(2,'0')}"
 # FIXME TEMPORARY
