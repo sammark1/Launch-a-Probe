@@ -4,8 +4,31 @@ import random
 def testing(username):
     return username
 
+def get_system_stars(system_type):
+    match system_type:
+        case "Solitary star":
+            return 1
+        case "Binary system":
+            return 2
+        case "Trinary system":
+            return 3
+        case "Star cluster":
+            return int(math.floor(random.random()*3)+4)
+        case "Stellar nebula":
+            return int(math.floor(random.random()*6)+6)
+
+def get_system_planets(system_type):
+    match system_type:
+        case "Solitary star" | "Binary system" | "Trinary system":
+            return int(math.floor(random.random()*12))
+        case "Star cluster":
+            return int(math.floor(random.random()*2))
+        case "Stellar nebula":
+            return int(math.floor(random.random()*6))
+
 def gen_system_designation(username,systems):
-    # currently no redundancy filter
+    #FIXME currently no redundancy filter for users with the same first two intials
+    #FIXME currently deleting systems can cause system index to match causing a redundancy
     return f"{(username[0:2]).upper()}-{str(len(systems)+1).rjust(5,'0')}"
 
 # def gen_system_name():
@@ -38,13 +61,14 @@ def gen_system_name():
 
 def gen_system_type():
     system_choices = ["Solitary star", "Binary system","Trinary system", "Star cluster", "Stellar nebula"]
-    out = random.choices(system_choices, weights=(20,20,20,20,20))
+    out = random.choices(system_choices, weights=(64,25,8,2,1))
     return out[0]
 
-def gen_star_designation(system): 
-    return(f"{system.designation}-{math.floor(random.random()*100)}")
+def gen_star_designation(system, star_index):
+    suffix = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',] 
+    return(f"{system.designation}-{suffix[star_index]}")
 # FIXME TEMPORARY
 
-def gen_planet_designation(system): 
-    return(f"{system.designation}-{math.floor(random.random()*100)}")
+def gen_planet_designation(system, planet_index): 
+    return(f"{system.designation}-{str(planet_index).rjust(2,'0')}")
 # FIXME TEMPORARY

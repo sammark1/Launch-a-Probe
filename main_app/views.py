@@ -11,63 +11,98 @@ from django.contrib.auth.models import User
 from .models import System, Star_Object, Planetoid
 from django.core.exceptions import ValidationError
 from .static.scripts.generator import *
+from django.forms import ModelForm
 import json
+import time
 
 
 
 # Views
 
-# class Landing(TemplateView):
-#     template_name = "landing.html"
-
 class Launch(TemplateView):
     template_name = "launch.html"
-# =========STAR OBJECTS=======
+# SECTION=========STAR OBJECTS=======
+
+class Star_Update_Form(ModelForm):
+    class Meta:
+        model = Star_Object
+        fields=['name']
 
 def Star_View(request, star_id):
     star = Star_Object.objects.get(id=star_id)
     system = System.objects.get(name=star.system.name)
     discoverer = User.objects.get(username=system.discoverer)
-    return render(request, 'star_view.html', {'star':star,'system':system,'discoverer':discoverer})
+    if request.method == 'POST':
+        form = Star_Update_Form(request.POST)
+        if form.is_valid():
+            star.name = form.cleaned_data['name']
+            star.save()
+            return HttpResponseRedirect(f'/star/{star_id}')
+        else:
+            return render(request, 'star_view.html', {'system':system,'star':star, 'discoverer':discoverer, 'form':form})
+    else:
+        form = Star_Update_Form() #may need args
+        return render(request, 'star_view.html', {'system':system,'star':star, 'discoverer':discoverer, 'form':form})
 
-def Star_Create(system):
+# TODO generate 
+def Star_Create(system, star_index):
     star_instance=Star_Object.objects.create(
-        designation=gen_star_designation(system),
-        name="testE",
+        designation=gen_star_designation(system, star_index),
+        name="testE", 
         mass=10,
         system_id=system.id,
         )
     star_instance.save()
+# !SECTION
+#SECTION=====PLANETOID OBJECTS======
 
-# =====PLANETOID OBJECTS======
+class Planet_Update_Form(ModelForm):
+    class Meta:
+        model = Planetoid
+        fields=['name']
 
 def Planetoid_View(request, planetoid_id):
     planetoid = Planetoid.objects.get(id=planetoid_id)
     system = System.objects.get(name=planetoid.system.name)
     discoverer = User.objects.get(username=system.discoverer)
-    return render(request, 'planet_view.html', {'planetoid':planetoid,'system':system,'discoverer':discoverer})
+    if request.method == 'POST':
+        form = Planet_Update_Form(request.POST)
+        if form.is_valid():
+            planetoid.name = form.cleaned_data['name']
+            planetoid.save()
+            return HttpResponseRedirect(f'/planet/{planetoid_id}')
+        else:
+            return render(request, 'planet_view.html', {'system':system,'planetoid':planetoid, 'discoverer':discoverer, 'form':form})
+    else:
+        form = Planet_Update_Form() #may need args
+        return render(request, 'planet_view.html', {'system':system,'planetoid':planetoid, 'discoverer':discoverer, 'form':form})
 
-def Planet_Create(system):
+# TODO planet generation details
+def Planet_Create(system, planet_index):
     planetoid_instance=Planetoid.objects.create(
-        designation=gen_planet_designation(system),
+        designation=gen_planet_designation(system, planet_index),
         name="test_AB",
         mass=199,
         system_id=system.id,
         )
     planetoid_instance.save()
 
-
-# ===========SYSTEMS==========
+# !SECTION
+#SECTION===========SYSTEMS==========
 
 class Systems_List(TemplateView):
     template_name = "systems_list.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["systems"] = System.objects.all()
+        search=self.request.GET.get('search')
+        if search !=None:
+            context["systems"] = System.objects.filter(name__icontains=search)
+        else:
+            context["systems"] = System.objects.all()
 
         render_data={
-            'bodyColor':0xffffff,
+            'bodyColor':0xffff00,
         }
         f = open("main_app/static/scripts/render_data.json", "w")
         f.write(json.dumps(render_data))
@@ -78,17 +113,76 @@ class Systems_List(TemplateView):
 # class System_View(DetailView):
 #     model = System
 #     template_name = "system_view.html"
+class System_Update_Form(ModelForm):
+    class Meta:
+        model = System
+        fields=['name']
+
+class System_Delete_Form(ModelForm):
+    class Meta:
+        model = System
+        fields=[]
 
 def System_View(request, system_id):
     system = System.objects.get(id=system_id)
     stars = Star_Object.objects.filter(system=system)
     planetoids = Planetoid.objects.filter(system=system)
-    return render(request, 'system_view.html', {'system':system,'stars':stars, 'planetoids':planetoids})
+    if request.method == 'POST':
+        u_form = System_Update_Form(request.POST)
+        d_form = System_Delete_Form(request.POST)
+        if u_form.is_valid():
+            system.name = u_form.cleaned_data['name']
+            system.save()
+            return HttpResponseRedirect(f'/system/{system_id}')
+        elif d_form.is_valid():
+            user = system.discoverer
+            system.delete()
+            return HttpResponseRedirect(f'/user/{user}')
+        else:
+            return render(
+                request, 'system_view.html', {
+                    'system':system,
+                    'stars':stars, 
+                    'planetoids':planetoids, 
+                    'u_form':u_form, 
+                    'd_form':d_form
+                    })
+    else:
+        u_form = System_Update_Form() #may need args
+        d_form = System_Delete_Form()
+        return render(
+            request, 'system_view.html', {
+                'system':system,
+                'stars':stars, 
+                'planetoids':planetoids, 
+                'u_form':u_form, 
+                'd_form':d_form
+                })
 
+# TODO DELETEME
+# def profile_update(request, username):
+#     if request.method == 'POST':
+#         form= Profile_Update_Form(request.POST)
+#         found_user=User.objects.get(username=username)
+#         recipient=Recipient.objects.get(user=found_user)
+#         # print(user.username)
+#         if form.is_valid():
+#             # form.save()
+#             biography = form.cleaned_data['bio']
+#             Recipient.objects.filter(user=found_user).update(bio=biography)
+#             # Recipient.objects.update(user=found_user, bio=biography)
+#             return HttpResponseRedirect('/home')
+#         else:
+#             return render(request, 'profile_edit.html', {'form': form})
+#     else:
+#         user=User.objects.get(username=username)
+#         recipient=Recipient.objects.get(user=user)
+#         form=Profile_Update_Form(instance=recipient)
+#         return render(request, 'profile_edit.html', {'form': form})
 
 class System_Create(CreateView):
     model = System
-    fields = ['system_type']
+    fields = []
     template_name = "system_create.html"
 
     def form_valid(self, form):
@@ -106,16 +200,25 @@ class System_Create(CreateView):
 
         self.object.save()
         
-        # ANCHOR star creation TODO make system adaptive to system stars
-        Star_Create(self.object)
+        # ANCHOR star creation
+        num_stars = get_system_stars(self.object.system_type)
+        for index in range(num_stars):
+            Star_Create(self.object, index)
 
         # ANCHOR planet creation
-        Planet_Create(self.object)
- 
-        return HttpResponseRedirect('/systems')
+        num_planets = get_system_planets(self.object.system_type)
+        for index in range(num_planets):
+            Planet_Create(self.object, index)
 
+        # time.sleep(1)
 
-# ==========USER/AUTH=========
+        return HttpResponseRedirect(f'/system/scan/{self.object.id}')
+
+def System_Scan(request, system_id):
+    return render(request, 'system_scan.html',{'system_id': system_id})
+
+# !SECTION
+#SECTION==========USER/AUTH=========
 
 def profile(request, username):
     user = User.objects.get(username=username)
@@ -157,3 +260,4 @@ def landing_view(request): #includes login and signup
         form2 = UserCreationForm()
         return render(request, 'login.html', {'form1': form1, 'form2':form2})
 
+#!SECTION

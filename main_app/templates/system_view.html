@@ -5,20 +5,40 @@
 {% endblock %}
 
 {% block body %}
+<h1>System Designation: </h1>
 <h1>{{system.designation}}</h1>
+<h1>System Name: </h1>
 <h1>{{system.name}}</h1>
 <h1>{{system.system_type}}</h1>
 
 <div>
+    <h2>Stars :</h2>
     {% for star in stars %}
     <a href="{% url 'Star_View' star.id %}">
-        <h2>Star : {{star.designation}} | {{star.name}}</h2>
+        <h2>{{star.designation}}</h2>
     </a>
     {% endfor %}
+    <h2>Planetoids :</h2>
     {% for planetoid in planetoids %}
     <a href="{% url 'Planetoid_View' planetoid.id %}">
-        <h2>Planetoids : {{planetoid.designation}} | {{planetoid.name}}</h2>
+        <h2>{{planetoid.designation}}</h2>
     </a>
     {% endfor %}
+    {% if user.is_authenticated and user.id == system.discoverer.id%}
+    <div id="systemNameEdit">
+        <form method="post">
+            {% csrf_token %}
+            {{ u_form.as_p }}
+            <button type="submit">Confirm</button>
+        </form>
+    </div>
+    <div id="systemNameEdit">
+        <form method="post">
+            {% csrf_token %}
+            {{ d_form.as_p }}
+            <button type="submit">DELETE</button>
+        </form>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}
