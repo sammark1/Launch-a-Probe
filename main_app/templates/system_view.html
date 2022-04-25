@@ -24,6 +24,14 @@
         <h2>{{planetoid.designation}}</h2>
     </a>
     {% endfor %}
+    
+    <h3>Visitors</h3>
+    {% for visitor in system.visitors.all %}
+        <div>{{visitor.username}}</div>
+    {% empty %}
+        <div>No visitors :(</div>
+    {% endfor %}
+
     {% if user.is_authenticated and user.id == system.discoverer.id%}
     <div id="systemNameEdit">
         <form method="post">

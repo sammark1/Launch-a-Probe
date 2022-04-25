@@ -148,7 +148,10 @@ def System_View(request, system_id):
                     'd_form':d_form
                     })
     else:
-        u_form = System_Update_Form() #may need args
+        # ANCHOR add user as visitor to system
+        # print('user: ', request.user)
+        system.visitors.add(request.user)
+        u_form = System_Update_Form()
         d_form = System_Delete_Form()
         return render(
             request, 'system_view.html', {
