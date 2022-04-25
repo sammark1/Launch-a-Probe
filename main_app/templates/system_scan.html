@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- add threejs ref -->
+
+{% block title %}
+<title>Launch a Probe</title>
+{% endblock %}
+
+{% block body %}
+<h1>Scanning....</h1>
+<script>
+    setTimeout(function(){
+        window.location.href = '/system/{{system_id}}'
+    }, 2000)
+</script>
+{% endblock %}

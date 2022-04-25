@@ -21,7 +21,7 @@ import time
 
 class Launch(TemplateView):
     template_name = "launch.html"
-# =========STAR OBJECTS=======
+# SECTION=========STAR OBJECTS=======
 
 class Star_Update_Form(ModelForm):
     class Meta:
@@ -53,8 +53,8 @@ def Star_Create(system, star_index):
         system_id=system.id,
         )
     star_instance.save()
-
-# =====PLANETOID OBJECTS======
+# !SECTION
+#SECTION=====PLANETOID OBJECTS======
 
 class Planet_Update_Form(ModelForm):
     class Meta:
@@ -87,8 +87,8 @@ def Planet_Create(system, planet_index):
         )
     planetoid_instance.save()
 
-
-# ===========SYSTEMS==========
+# !SECTION
+#SECTION===========SYSTEMS==========
 
 class Systems_List(TemplateView):
     template_name = "systems_list.html"
@@ -210,12 +210,15 @@ class System_Create(CreateView):
         for index in range(num_planets):
             Planet_Create(self.object, index)
 
-        # time.sleep(10)
+        # time.sleep(1)
 
-        return HttpResponseRedirect(f'/system/{self.object.id}')
+        return HttpResponseRedirect(f'/system/scan/{self.object.id}')
 
+def System_Scan(request, system_id):
+    return render(request, 'system_scan.html',{'system_id': system_id})
 
-# ==========USER/AUTH=========
+# !SECTION
+#SECTION==========USER/AUTH=========
 
 def profile(request, username):
     user = User.objects.get(username=username)
@@ -257,3 +260,4 @@ def landing_view(request): #includes login and signup
         form2 = UserCreationForm()
         return render(request, 'login.html', {'form1': form1, 'form2':form2})
 
+#!SECTION
