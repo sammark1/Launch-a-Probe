@@ -127,6 +127,14 @@ def gen_star_details(system):
 def gen_planet_designation(system, planet_index): 
     return f"{system.designation}-{str(planet_index).rjust(2,'0')}"
 
+def gen_planet_name(system, planet_index):
+    name=""
+    segments = int(math.floor(random.random()*3)+2)
+    for index in range(segments):
+        name=f"{name}{sounds[int(random.random()*len(sounds))]}"
+    name=f"{str(planet_index+1)}-{name.capitalize()}"
+    return name
+
 def gen_planet_details(system):
     planet_choices = [
     "gas giant",

@@ -84,7 +84,7 @@ def Planet_Create(system, planet_index):
     planet_details = gen_planet_details(system)
     planetoid_instance=Planetoid.objects.create(
         designation=gen_planet_designation(system, planet_index),
-        name="test_AB",
+        name=gen_planet_name(system, planet_index),
         body_type=planet_details[0],
         mass=planet_details[1],
         system_id=system.id,
