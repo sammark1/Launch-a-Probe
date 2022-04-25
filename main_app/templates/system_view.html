@@ -28,8 +28,15 @@
     <div id="systemNameEdit">
         <form method="post">
             {% csrf_token %}
-            {{ form.as_p }}
+            {{ u_form.as_p }}
             <button type="submit">Confirm</button>
+        </form>
+    </div>
+    <div id="systemNameEdit">
+        <form method="post">
+            {% csrf_token %}
+            {{ d_form.as_p }}
+            <button type="submit">DELETE</button>
         </form>
     </div>
     {% endif %}

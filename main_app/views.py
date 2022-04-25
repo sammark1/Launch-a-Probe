@@ -13,6 +13,7 @@ from django.core.exceptions import ValidationError
 from .static.scripts.generator import *
 from django.forms import ModelForm
 import json
+import time
 
 
 
@@ -117,21 +118,46 @@ class System_Update_Form(ModelForm):
         model = System
         fields=['name']
 
+class System_Delete_Form(ModelForm):
+    class Meta:
+        model = System
+        fields=[]
+
 def System_View(request, system_id):
     system = System.objects.get(id=system_id)
     stars = Star_Object.objects.filter(system=system)
     planetoids = Planetoid.objects.filter(system=system)
     if request.method == 'POST':
-        form = System_Update_Form(request.POST)
-        if form.is_valid():
-            system.name = form.cleaned_data['name']
+        u_form = System_Update_Form(request.POST)
+        d_form = System_Delete_Form(request.POST)
+        if u_form.is_valid():
+            system.name = u_form.cleaned_data['name']
             system.save()
             return HttpResponseRedirect(f'/system/{system_id}')
+        elif d_form.is_valid():
+            user = system.discoverer
+            system.delete()
+            return HttpResponseRedirect(f'/user/{user}')
         else:
-            return render(request, 'system_view.html', {'system':system,'stars':stars, 'planetoids':planetoids, 'form':form})
+            return render(
+                request, 'system_view.html', {
+                    'system':system,
+                    'stars':stars, 
+                    'planetoids':planetoids, 
+                    'u_form':u_form, 
+                    'd_form':d_form
+                    })
     else:
-        form = System_Update_Form() #may need args
-        return render(request, 'system_view.html', {'system':system,'stars':stars, 'planetoids':planetoids, 'form':form})
+        u_form = System_Update_Form() #may need args
+        d_form = System_Delete_Form()
+        return render(
+            request, 'system_view.html', {
+                'system':system,
+                'stars':stars, 
+                'planetoids':planetoids, 
+                'u_form':u_form, 
+                'd_form':d_form
+                })
 
 # TODO DELETEME
 # def profile_update(request, username):
@@ -183,7 +209,9 @@ class System_Create(CreateView):
         num_planets = get_system_planets(self.object.system_type)
         for index in range(num_planets):
             Planet_Create(self.object, index)
- 
+
+        # time.sleep(10)
+
         return HttpResponseRedirect(f'/system/{self.object.id}')
 
 

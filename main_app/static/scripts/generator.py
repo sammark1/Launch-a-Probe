@@ -27,7 +27,8 @@ def get_system_planets(system_type):
             return int(math.floor(random.random()*6))
 
 def gen_system_designation(username,systems):
-    # currently no redundancy filter
+    #FIXME currently no redundancy filter for users with the same first two intials
+    #FIXME currently deleting systems can cause system index to match causing a redundancy
     return f"{(username[0:2]).upper()}-{str(len(systems)+1).rjust(5,'0')}"
 
 # def gen_system_name():
@@ -69,5 +70,5 @@ def gen_star_designation(system, star_index):
 # FIXME TEMPORARY
 
 def gen_planet_designation(system, planet_index): 
-    return(f"{system.designation}-{planet_index}")
+    return(f"{system.designation}-{str(planet_index).rjust(2,'0')}")
 # FIXME TEMPORARY
