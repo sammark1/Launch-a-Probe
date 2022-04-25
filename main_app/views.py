@@ -46,11 +46,13 @@ def Star_View(request, star_id):
 
 # TODO generate 
 def Star_Create(system, star_index):
-    star_instance=Star_Object.objects.create(
-        designation=gen_star_designation(system, star_index),
-        name="testE", 
-        mass=10,
-        system_id=system.id,
+    star_details = gen_star_details(system)
+    star_instance = Star_Object.objects.create(
+        designation = gen_star_designation(system, star_index),
+        name = gen_star_name(system, star_index),
+        stellar_class = star_details[0], 
+        mass = star_details[1],
+        system_id = system.id,
         )
     star_instance.save()
 # !SECTION
@@ -79,10 +81,12 @@ def Planetoid_View(request, planetoid_id):
 
 # TODO planet generation details
 def Planet_Create(system, planet_index):
+    planet_details = gen_planet_details(system)
     planetoid_instance=Planetoid.objects.create(
         designation=gen_planet_designation(system, planet_index),
-        name="test_AB",
-        mass=199,
+        name=gen_planet_name(system, planet_index),
+        body_type=planet_details[0],
+        mass=planet_details[1],
         system_id=system.id,
         )
     planetoid_instance.save()

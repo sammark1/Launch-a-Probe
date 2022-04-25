@@ -43,7 +43,7 @@ class Star_Object(models.Model):
     designation = models.CharField(max_length = 60, unique=True)
     name = models.CharField(max_length = 128)
     system = models.ForeignKey(System, on_delete=models.CASCADE)
-    stellar_class = models.CharField(max_length = 20, choices = STELLAR_CHOICES)
+    stellar_class = models.CharField(max_length = 50, choices = STELLAR_CHOICES)
     mass = models.FloatField()
     created_at = models.DateTimeField(auto_now_add = True)
 

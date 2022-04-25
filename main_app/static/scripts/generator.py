@@ -1,6 +1,10 @@
 import math
 import random
 
+sounds = ["ab","al","an","ta","ir","ri","gel","be","tel","ge","po","lar","is","wo","olf","eri","da","ni","us","si","sa","gi","ta","ri","dro","mi","dae","ce","ti","le","on","is","la","ce","ra","tae","cas","si","pei","a","scor","pi","os","can","cer","o","ma","jor","me","da","tau","rus","ly","ser","pens","aqu","ar","i","dra","co","del","phin","ceph","cap","cor","nus","phoe","nix","vul","pe","cu"]
+letters = ["alpha", "beta", "gamma", "delta", "epsilon", "zeta", "eta", "theta", "iota", "kappa", "lambda", "mu", "nu", "xi", "omicron", "pi", "rho", "sigma", "tau", "upsilon", "phi", "chi", "psi", "omega", "aleph", "bet", "giml", "dalet"]
+
+
 def testing(username):
     return username
 
@@ -45,8 +49,6 @@ def gen_system_designation(username,systems):
 
 def gen_system_name():
     name=""
-    sounds = ["ab","al","an","ta","ir","ri","gel","be","tel","ge","po","lar","is","wo","olf","eri","da","ni","us","si","sa","gi","ta","ri","us","dro","mi","dae","ce","ti","le","on","is","la","ce","ra","tae"]
-    letters = ["alpha", "beta", "gamma", "delta", "epsilon", "zeta", "eta", "theta", "iota", "kappa", "lambda", "mu", "nu", "xi", "omicron", "pi", "rho", "sigma", "tau", "upsilon", "phi", "chi", "psi", "omega", "aleph", "bet", "giml", "dalet", "hē", "wāw", "zajin", "hēt", "tēt", "yod", "kāp", "iāmed", "mēm", "nūn", "śāmek", "ayin", "pē", "ṩādē", "qōp", "rēs", "šīn", "tāw"]
     phrases  = int(math.floor(random.random()*2)+2)
     for index, x in enumerate(range(phrases)):
         segments = int(math.floor(random.random()*2)+2)
@@ -67,8 +69,86 @@ def gen_system_type():
 def gen_star_designation(system, star_index):
     suffix = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',] 
     return(f"{system.designation}-{suffix[star_index]}")
-# FIXME TEMPORARY
+
+def gen_star_name(system, star_index):
+    system_names=system.name.split()
+    name=f"{letters[star_index].capitalize()} {system_names[len(system_names)-1].capitalize()}{sounds[int(random.random()*len(sounds))]}"
+    print("name: ", name)
+    return name
+
+def gen_star_details(system):
+    star_choices = [
+    "blue-white supergiant",
+    "yellow supergiant",
+    "red supergiant",
+	"blue-white giant",
+    "yellow giant",
+    "red giant",
+    "main sequence O-spectrum",
+    "main sequence B-spectrum",
+    "main sequence A-spectrum",
+    "main sequence F-spectrum",
+    "main sequence G-spectrum",
+    "main sequence K-spectrum",
+    "main sequence M-spectrum",
+    "red dwarf",
+    "brown dwarf",
+    "White Dwarf",
+    ]
+    star_type = random.choices(star_choices, weights=(1,0.5,0.5,1.5,0.5,5,18,16,14,12,10,8,6,3,2,2))
+    # print("Gen Star Type: ", star_type[0])
+    match star_type[0]:
+        case "blue-white supergiant" | "yellow supergiant" | "red supergiant":
+            star_mass = random.random()*150+8
+        case "blue-white giant" | "yellow giant" | "red giant":
+            star_mass = random.random()*120.75+0.25
+        case "main sequence O-spectrum":
+            star_mass = random.random()*119.9+0.10
+        case "main sequence B-spectrum":
+            star_mass = random.random()*60.9+0.10
+        case "main sequence A-spectrum":
+            star_mass = random.random()*35.9+0.10
+        case "main sequence F-spectrum":
+            star_mass = random.random()*20.9+0.10
+        case "main sequence G-spectrum":
+            star_mass = random.random()*9.9+0.10
+        case "main sequence K-spectrum":
+            star_mass = random.random()*3.9+0.10
+        case "main sequence M-spectrum":
+            star_mass = random.random()*2.9+0.10
+        case "White Dwarf":
+            star_mass = random.random()*1.05+0.15
+        case "red dwarf" | "brown dwarf":
+            star_mass = random.random()*0.075+0.009
+    # potential for luminosity
+    return [star_type[0],star_mass]
+
 
 def gen_planet_designation(system, planet_index): 
-    return(f"{system.designation}-{str(planet_index).rjust(2,'0')}")
-# FIXME TEMPORARY
+    return f"{system.designation}-{str(planet_index).rjust(2,'0')}"
+
+def gen_planet_name(system, planet_index):
+    name=""
+    segments = int(math.floor(random.random()*3)+2)
+    for index in range(segments):
+        name=f"{name}{sounds[int(random.random()*len(sounds))]}"
+    name=f"{str(planet_index+1)}-{name.capitalize()}"
+    return name
+
+def gen_planet_details(system):
+    planet_choices = [
+    "gas giant",
+    "rocky planet",
+    "dwarf planet",
+    ]
+    planet_type = random.choices(planet_choices, weights=(25,33,42))
+    print("Gen Planet Type: ", planet_type[0])
+    match planet_type[0]:
+        case "gas giant":
+            planet_mass = random.random()*100+317.82838
+        case "rocky planet":
+            planet_mass = random.random()*2+.5
+        case "dwarf planet":
+            planet_mass = random.random()*0.5+.1
+    # potential for luminosity
+    return [planet_type[0],planet_mass]
