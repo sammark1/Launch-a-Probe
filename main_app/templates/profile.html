@@ -11,16 +11,17 @@
 
   <h1>{{ username }}'s discoveries:</h1>
     
+  <div id="cardDisplay">
+    {% for system in systems %}
+    <div class="systemCard">
+      <a href="{% url 'System_View' system.id %}">
+        <p>{{system.designation}}</p>
+        <h2>{{ system.name }}</h2>
+        <p>{{system.system_type}}</p>
+      </a>
+    </div>
 
-  {% for system in systems %}
-  <div class="systemCard">
-    <a href="{% url 'System_View' system.id %}">
-      <h2>{{ system.name }}</h2>
-      <p>{{system.designation}}</p>
-    </a>
+    {% endfor %}
   </div>
-
-  {% endfor %}
-
 </div>
 {% endblock %}

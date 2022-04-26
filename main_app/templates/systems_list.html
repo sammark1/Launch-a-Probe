@@ -5,21 +5,27 @@
 {% endblock %}
 
 {% block body %}
-<h1>Systems Search</h1>
-<form>
-    <div>
-        <input type="text" name="search" placeholder="search for systems"/>
-        <input type="submit" value="Search"/>
+    <div id="searchHeader">
+        <h1>Systems Search</h1>
+        <form>
+            <div>
+                <input type="text" name="search" placeholder="search for systems"/>
+                <input type="submit" value="Search"/>
+            </div>
+        </form>
     </div>
-</form>
-{% for system in systems %}
-    <a href="{% url 'System_View' system.id %}">
-        <h3>Designation: {{system.designation}}</h3>
-        <h3>Name: {{system.name}}</h3>
-    </a>
-    <h3>Type: {{system.system_type}}</h3>
-    <p>
-        <a href='/user/{{system.discoverer.username}}'>{{system.discoverer.username}}</a>
-    </p>
-    {% endfor %}
+    <div id="cardDisplay">
+    {% for system in systems %}
+    <div class="systemCard">
+        <a href="{% url 'System_View' system.id %}">
+            <p>{{system.designation}}</p>
+            <h2>{{system.name}}</h2>
+            <p>{{system.system_type}}</p>
+        </a>
+        <a href='/user/{{system.discoverer.username}}'>
+            <p>{{system.discoverer.username}}</p>
+        </a>
+    </div>
+        {% endfor %}
+    </div>
 {% endblock %}

@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@300;400;700&display=swap');
 
 :root{
-    --primary-color :           #d19744;
+    --primary-color :           #efbc73;
     --black:                    #000000;
     --dark-gray:                #202020;
 }
@@ -14,13 +14,6 @@ body{
     color:white;
 }
 
-h1,h2,h3,h4,h5,h6{
-    font-family: 'Zen Kaku Gothic Antique', sans-serif;
-    font-weight:lighter;
-    /* text-decoration: underline; */
-    margin-block-start: 0.3em;
-    margin-block-end: 0.3em;
-}
 
 a{
     font-family: 'Zen Kaku Gothic Antique', sans-serif;
@@ -30,6 +23,16 @@ a{
 
 a:visited{
     color:var(--primary-color);
+}
+
+h1,h2,h3,h4,h5,h6{
+    font-family: 'Zen Kaku Gothic Antique', sans-serif;
+    font-weight:lighter;
+    text-decoration: underline;
+    /* text-decoration: underline; */
+    margin-block-start: 0.3em;
+    margin-block-end: 0.3em;
+    color:white
 }
 
 button{
@@ -43,13 +46,38 @@ button{
     text-decoration: underline;
 }
 
+#cardDisplay{
+    display: flex;
+    justify-content:space-around;
+    flex-wrap: wrap;
+}
+
 .highlight{
     color:lightcoral;
 }
 
+/* SECTION COMMON STYLES */
+.systemCard{
+    background-color: var(--dark-gray);
+    min-width: calc(33.33% - 1rem);
+    flex-grow:1;
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    padding: 1rem .25rem 1rem .25rem;
+    margin:.25rem .25rem .25rem .25rem;
+}
+
+@media only screen and (max-width: 750px) { 
+    .systemCard{
+        min-width: 100%;
+    }
+}
+/* !SECTION */
 
 /* SECTION HEADER STYLES */
 #header{
+    position:sticky;
     background-color: var(--dark-gray);
     display: flex;
     flex-direction: row;
@@ -124,13 +152,6 @@ background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgb(160, 160, 160) 100%);
     flex-direction:column;
     align-items:center;
 }
-.systemCard{
-    margin:.5rem;
-    background-color: var(--dark-gray);
-    width: 100%;
-    padding-block-start: .5rem; 
-    padding-block-end: .5rem; 
-}
 .systemCard > a{
     display: flex;
     flex-direction: column;
@@ -138,5 +159,13 @@ background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgb(160, 160, 160) 100%);
 }
 .systemCard *{
     margin:0
+}
+/* !SECTION */
+
+/* SECTION SEARCH STYLES */
+#searchHeader{
+    display: flex;
+    flex-direction: column;
+    align-items:center
 }
 /* !SECTION */
