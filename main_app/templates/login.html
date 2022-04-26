@@ -1,22 +1,33 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
-<title>Sign up</title>
+<title>Launch a Probe</title>
+{% endblock %}
+
+{% block three_script %}
+<script id="display1" type="module" src="{% static 'scripts/threejs.js' %}" defer></script>
 {% endblock %}
 
 {% block body %}
-<h1>Login</h1>
-<form method="POST" action=".">
-  {% csrf_token %}
-  {{ form1.as_p}}
-  <input type="submit" value="Submit" />
-</form>
-
-<h2>Sign up</h2>
-  <form method="POST">
-    {% csrf_token %}
-    {{ form2.as_p }}
-    <button type="submit">Sign up</button>
-  </form>
-
+<div id="landing">
+    <div id="THREEJS1"></div>
+    <h1 id="title">Launch A Probe</h1>
+  <div id="loginCard">
+    <h1>Login</h1>
+    <form method="POST" action=".">
+      {% csrf_token %}
+      {{ form1.as_p}}
+      <input type="submit" value="Submit" />
+    </form>
+  </div>
+  <div id="signupCard">
+    <h1>Sign up</h1>
+    <form method="POST">
+      {% csrf_token %}
+      {{ form2.as_p }}
+      <button type="submit">Sign up</button>
+    </form>
+  </div>
+</div>
 {% endblock %}
