@@ -17,7 +17,9 @@ body{
 h1,h2,h3,h4,h5,h6{
     font-family: 'Zen Kaku Gothic Antique', sans-serif;
     font-weight:lighter;
-    text-decoration: underline;
+    /* text-decoration: underline; */
+    margin-block-start: 0.3em;
+    margin-block-end: 0.3em;
 }
 
 a{
@@ -121,5 +123,20 @@ background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgb(160, 160, 160) 100%);
     display: flex;
     flex-direction:column;
     align-items:center;
+}
+.systemCard{
+    margin:.5rem;
+    background-color: var(--dark-gray);
+    width: 100%;
+    padding-block-start: .5rem; 
+    padding-block-end: .5rem; 
+}
+.systemCard > a{
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+}
+.systemCard *{
+    margin:0
 }
 /* !SECTION */
