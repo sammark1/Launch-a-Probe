@@ -1,16 +1,22 @@
 {% extends 'base.html' %}
 
 {% block body %}
+<div id="discoveries">
+  <a href="{% url 'System_Create' %}">
+    <h3>Explore Nearby Systems</h3>
+  </a>
 
-<h1>{{ username }}'s discoveries:</h1>
+  <h1>{{ username }}'s discoveries:</h1>
+    
 
-{% for system in systems %}
-<a href="{% url 'System_View' system.id %}">
-  <h3>{{ system.name }}</h3>
-</a>
+  {% for system in systems %}
+  <div class="systemCard">
+    <a href="{% url 'System_View' system.id %}">
+      <h3>{{ system.name }}</h3>
+    </a>
+  </div>
 
-{% endfor %}
+  {% endfor %}
 
-<a href="{% url 'System_Create' %}">Explore</a>
-
+</div>
 {% endblock %}
