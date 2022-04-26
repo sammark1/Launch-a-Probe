@@ -30,10 +30,15 @@ def get_system_planets(system_type):
         case "Stellar nebula":
             return int(math.floor(random.random()*6))
 
-def gen_system_designation(username,systems):
+def gen_system_designation(username,user_systems):
     #FIXME currently no redundancy filter for users with the same first two intials
-    #FIXME currently deleting systems can cause system index to match causing a redundancy
-    return f"{(username[0:2]).upper()}-{str(len(systems)+1).rjust(5,'0')}"
+    #FIXME currently deleting systems can cause system index to match causing a unique conflict
+    for index in (range(len(user_systems))):
+        if user_systems[index].designation != f"{(username[0:2]).upper()}-{str(index+1).rjust(5,'0')}":
+            name = f"{(username[0:2]).upper()}-{str(index+1).rjust(5,'0')}"
+            break
+    return name
+    # return f"{(username[0:2]).upper()}-{str(len(user_systems)+1).rjust(5,'0')}"
 
 # def gen_system_name():
 #     name=""
