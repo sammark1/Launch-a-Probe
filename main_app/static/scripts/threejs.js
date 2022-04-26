@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import render_data from './render_data.json' assert {type:'json'}
 
 
-const displayZone = [innerWidth,innerHeight];
+const displayZone = [innerWidth,500];
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75,displayZone[0]/displayZone[1], 0.1, 1000);
@@ -10,7 +10,7 @@ const renderer = new THREE.WebGLRenderer({antialias:true});
 
 renderer.setSize(displayZone[0],displayZone[1]);
 renderer.setPixelRatio(devicePixelRatio);
-document.body.appendChild(renderer.domElement);
+document.getElementById("THREEJS1").appendChild(renderer.domElement);
 
 const light1 = new THREE.PointLight( 0xffa000, .6, 100 )
 const light2 = new THREE.PointLight( 0xffa0a0, .7, 100 )
@@ -39,7 +39,7 @@ scene.add(testAmbLight)
 
 light1.target = icoplanet;
 
-camera.position.z = 5;
+camera.position.z = 3;
 
 
 function animate () {

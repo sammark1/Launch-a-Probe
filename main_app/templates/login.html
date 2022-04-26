@@ -1,22 +1,50 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
-<title>Sign up</title>
+<title>Launch a Probe</title>
+{% endblock %}
+
+{% block three_script %}
+<script id="display1" type="module" src="{% static 'scripts/threejs.js' %}" defer></script>
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="module" src="{% static 'scripts/landing.js' %}" defer></script>
 {% endblock %}
 
 {% block body %}
-<h1>Login</h1>
-<form method="POST" action=".">
-  {% csrf_token %}
-  {{ form1.as_p}}
-  <input type="submit" value="Submit" />
-</form>
+<div id="landing">
+    <div id="THREEJS1"></div>
+    <h1 id="title">Launch A Probe</h1>
+  <div id="loginCard">
+    <h1>Login</h1>
+    <form method="POST" action=".">
+      {% csrf_token %}
+      {{ form1.as_p}}
+      <button type="submit" >Log in</button>
+    </form>
+    <button class="cancelButton">Cancel</button>
+  </div>
+  <div id="signupCard">
+    <h1>Sign up</h1>
+    <form method="POST">
+      {% csrf_token %}
+      {{ form2.as_p }}
+      <button type="submit">Sign up</button>
+    </form>
+    <button class="cancelButton">Cancel</button>
+  </div>
+  <div id="logSignButtons">
+    <button id="loginButton">Log in</button>
+    <button id="signupButton">Sign up</button>
+  </div>
+  <div id="blurb">
+    <p>
+      In the not too near future humans will explore space. Likely, this will be done, not humans in space suts on rockets, but swarms of interconnected probes launched to the farthest reaches possible. Collecting data on these distant star-systems, stars, and planets will be almost fully automated.
+      
+      <span class="highlight">Launch A Probe</span> is a simulation of citizen science as we explore beyond our galaxy and into our neighbors
 
-<h2>Sign up</h2>
-  <form method="POST">
-    {% csrf_token %}
-    {{ form2.as_p }}
-    <button type="submit">Sign up</button>
-  </form>
-
+      <span class="highlight">Scan</span> a nearby star system to discover <span class="highlight">stars</span>
+    </p>
+  </div>
+</div>
 {% endblock %}

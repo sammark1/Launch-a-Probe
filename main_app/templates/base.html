@@ -27,10 +27,10 @@
   </head>
   <body>
     {% if user.is_authenticated %}
-    <span><a href="{% url 'profile' user.username %}">Hello, {{ user.username }}!</a></span>
-    <span> | </span>
-    <span><a href="{% url 'logout' %}">Logout</a></span>
-    <span> | </span>
+    <div id="header">
+      <a href="{% url 'profile' user.username %}">Exploring as {{ user.username }}</a>
+      <a href="{% url 'logout' %}">Logout</a>
+    </div>
     {% endif %}
 
 

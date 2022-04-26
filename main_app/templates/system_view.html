@@ -1,52 +1,77 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
 <title>{{system.designation}}</title>
 {% endblock %}
 
+{% block three_script %}
+<script id="display1" type="module" src="{% static 'scripts/threejs.js' %}" defer></script>
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="module" src="{% static 'scripts/system.js' %}" defer></script>
+{% endblock %}
+
 {% block body %}
-<h1>System Designation: </h1>
-<h1>{{system.designation}}</h1>
-<h1>System Name: </h1>
-<h1>{{system.name}}</h1>
-<h1>{{system.system_type}}</h1>
-
-<div>
-    <h2>Stars :</h2>
-    {% for star in stars %}
-    <a href="{% url 'Star_View' star.id %}">
-        <h2>{{star.designation}}</h2>
-    </a>
-    {% endfor %}
-    <h2>Planetoids :</h2>
-    {% for planetoid in planetoids %}
-    <a href="{% url 'Planetoid_View' planetoid.id %}">
-        <h2>{{planetoid.designation}}</h2>
-    </a>
-    {% endfor %}
-    
-    <h3>Visitors</h3>
-    {% for visitor in system.visitors.all %}
-        <div>{{visitor.username}}</div>
-    {% empty %}
-        <div>No visitors :(</div>
-    {% endfor %}
-
+<div id="systemView">
     {% if user.is_authenticated and user.id == system.discoverer.id%}
-    <div id="systemNameEdit">
-        <form method="post">
-            {% csrf_token %}
-            {{ u_form.as_p }}
-            <button type="submit">Confirm</button>
-        </form>
-    </div>
-    <div id="systemNameEdit">
-        <form method="post">
-            {% csrf_token %}
-            {{ d_form.as_p }}
-            <button type="submit">DELETE</button>
-        </form>
-    </div>
+        <div id="editPop">
+            <H1>Edit System {{system.name}}</H1>
+            <form method="post">
+                {% csrf_token %}
+                {{ u_form.as_p }}
+                <div>
+                    <button type="submit">Confirm</button>
+                    <button class="cancelButton" type="button">Cancel</button>
+                </div>
+            </form>
+            <form method="post">
+                {% csrf_token %}
+                {{ d_form.as_p }}
+                <button type="submit">Delete System</button>
+            </form>
+        </div>
     {% endif %}
+    <div id="THREEJS1"></div>
+    <div id="systemDetail">
+        <h1>System Designation: {{system.designation}}</h1>
+        <h1>System Name: {{system.name}}</h1>
+        <h1>{{system.system_type}}</h1>
+        <button id="systemEditButton" type="button">edit</button>
+    </div>
+    
+    <div id=systemContent>
+        <h2>Stars :</h2>
+        <div id="cardDisplay">
+            {% for star in stars %}
+            <div class="planetCard">
+                <a href="{% url 'Star_View' star.id %}">
+                    <h2>{{star.name}}</h2>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        <h2>Planetoids :</h2>
+        <div id="cardDisplay">
+            {% for planetoid in planetoids %}
+            <div class="planetCard">
+                <a href="{% url 'Planetoid_View' planetoid.id %}">
+                    <h2>{{planetoid.name}}</h2>
+                </a>
+            </div>
+            {% empty %}
+            <p>No Planetoids dsicovered</p>
+            {% endfor %}
+        </div>
+        <h3>Visitors</h3>
+            <div>
+                <p>
+                {% for visitor in system.visitors.all %}
+                    • {{visitor.username}} 
+                {% empty %}
+                    No visitors
+                {% endfor %}
+                </p>
+            </div>
+    </div>
 </div>
 {% endblock %}
