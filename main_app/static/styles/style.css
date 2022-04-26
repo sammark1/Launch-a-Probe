@@ -4,6 +4,7 @@
     --primary-color :           #efbc73;
     --black:                    #000000;
     --dark-gray:                #202020;
+    --med-gray:                 #424240;
 }
 
 body{
@@ -40,24 +41,54 @@ button{
     font-weight:lighter;
     background-color: var(--dark-gray);
     border:unset;
-    font-size:18pt;
+    font-size:12pt;
     color:white;
-    padding:0.5rem 1rem 0.5rem 1rem;
+    padding:0.1rem 0.5rem 0.5rem 0.5rem;
     text-decoration: underline;
-}
-
-#cardDisplay{
-    display: flex;
-    justify-content:space-around;
-    flex-wrap: wrap;
 }
 
 .highlight{
     color:lightcoral;
 }
 
+@media only screen and (max-width: 750px) { 
+    button{
+        font-size:16pt;
+    }
+}
+
 /* SECTION COMMON STYLES */
+
+#cardDisplay{
+    display: flex;
+    justify-content:space-around;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
 .systemCard{
+    background-color: var(--dark-gray);
+    min-width: calc(33.33% - 1rem);
+    flex-grow:1;
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    padding: 1rem .25rem 1rem .25rem;
+    margin:.25rem .25rem .25rem .25rem;
+}
+
+.starCard{
+    background-color: var(--dark-gray);
+    min-width: 30%;
+    flex-grow:1;
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    padding: 1rem .25rem 1rem .25rem;
+    margin:.25rem .25rem .25rem .25rem;
+}
+
+.planetCard{
     background-color: var(--dark-gray);
     min-width: calc(33.33% - 1rem);
     flex-grow:1;
@@ -92,10 +123,6 @@ button{
     display:flex;
     flex-direction: column;
     align-items:center;
-}
-/* TODO DELETEME */
-#landing > *{
-    /* border: 1px solid red; */
 }
 
 #landing > #THREEJS1{
@@ -167,5 +194,40 @@ background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgb(160, 160, 160) 100%);
     display: flex;
     flex-direction: column;
     align-items:center
+}
+/* !SECTION */
+
+/* SECTION SYSTEM VIEW STYLES */
+#systemDetail{
+    height:400px;
+    padding:1rem;
+}
+
+#systemView > #THREEJS1{
+    position: absolute;
+    z-index: -1;
+}
+
+#systemContent {
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+}
+
+#editPop{
+    background-color: #202020e0;
+    width: fit-content;
+    margin: auto;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    border: 0.25rem solid var(--med-gray);
+}
+#editPop > *{
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    padding: 1rem;
 }
 /* !SECTION */
