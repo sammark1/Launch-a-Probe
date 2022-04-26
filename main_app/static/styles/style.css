@@ -238,3 +238,9 @@ background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgb(160, 160, 160) 100%);
     padding:1rem;
 }
 /* !SECTION */
+
+/* SECTION PLANET VIEW STYLES */
+#planetDetail{
+    padding:1rem;
+}
+/* !SECTION */
