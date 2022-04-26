@@ -99,6 +99,23 @@ button{
     margin:.25rem .25rem .25rem .25rem;
 }
 
+#editPop{
+    background-color: #202020e0;
+    width: fit-content;
+    margin: auto;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    border: 0.25rem solid var(--med-gray);
+}
+#editPop > *{
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    padding: 1rem;
+}
+
 @media only screen and (max-width: 750px) { 
     .systemCard{
         min-width: 100%;
@@ -214,20 +231,10 @@ background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgb(160, 160, 160) 100%);
     align-items:center;
 }
 
-#editPop{
-    background-color: #202020e0;
-    width: fit-content;
-    margin: auto;
-    margin-top: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items:center;
-    border: 0.25rem solid var(--med-gray);
-}
-#editPop > *{
-    display: flex;
-    flex-direction: column;
-    align-items:center;
-    padding: 1rem;
+/* !SECTION */
+
+/* SECTION STAR VIEW STYLES */
+#starDetail{
+    padding:1rem;
 }
 /* !SECTION */

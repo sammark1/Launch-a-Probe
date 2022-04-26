@@ -1,26 +1,40 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
 <title>{{star.designation}}</title>
 {% endblock %}
 
-{% block body %}
-<h1>{{star.designation}}</h1>
-<h1>{{star.name}}</h1>
-<h1>{{star.stellar_class}}</h1>
-<h1>{{star.mass}} M☉</h1>
+{% block three_script %}
+<script id="display1" type="module" src="{% static 'scripts/threejs.js' %}" defer></script>
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="module" src="{% static 'scripts/star.js' %}" defer></script>
+{% endblock %}
 
-{% if user.is_authenticated and user.id == system.discoverer.id%}
-    <div id="planetNameEdit">
+{% block body %}
+<div id="starView">
+    {% if user.is_authenticated and user.id == system.discoverer.id%}
+    <div id="editPop">
+        <H1>Edit Stellar Object {{star.name}}</H1>
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">Confirm</button>
+            <div>
+                <button type="submit">Confirm</button>
+                <button class="cancelButton" type="button">Cancel</button>
+            </div>
         </form>
     </div>
-{% endif %}
-
-<a href="{% url 'System_View' system.id %}"><h1>system:{{system.designation}}</h1></a>
-
-<a href="{% url 'profile' discoverer.username %}"><h1>discoverer:{{discoverer.username}}</h1></a>
+    {% endif %}
+    <div id="starDetail">
+        <h1>Star Designation: {{star.designation}}</h1>
+        <h1>Star Name: {{star.name}}</h1>
+        <button id="systemEditButton" type="button">edit</button>
+        <div id="THREEJS1"></div>
+        <h2>Class: {{star.stellar_class}}</2>
+        <h2>Mass: {{star.mass}} M☉</h2>
+        <a href="{% url 'System_View' system.id %}"><h2>Astral System: {{system.name}}</h2></a>
+        <a href="{% url 'profile' discoverer.username %}"><h2>discovered by:{{discoverer.username}}</h2></a>
+    </div>
+</div>
 {% endblock %}
