@@ -2,13 +2,12 @@ import * as THREE from 'three';
 import render_data from './render_data.json' assert {type:'json'}
 
 
-
 const displayZone = [innerWidth,500];
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75,displayZone[0]/displayZone[1], 0.1, 1000);
 const renderer = new THREE.WebGLRenderer({antialias:true});
-
+// const EC = new EffectComposer(renderer, camera);
 
 renderer.setSize(displayZone[0],displayZone[1]);
 renderer.setPixelRatio(devicePixelRatio);
@@ -44,6 +43,7 @@ const atmosMaterial2 = new THREE.MeshPhongMaterial({
     color: render_data.bodyColor,
     alphaMap: solarAtmosTexture2,
     emissive: render_data.bodyColor,
+    bumpMap: solarAtmosTexture,
 });
 atmosMaterial2.transparent=true;
 //const icoMaterial = new THREE.LineBasicMaterial();
