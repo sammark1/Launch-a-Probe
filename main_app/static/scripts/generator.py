@@ -30,10 +30,15 @@ def get_system_planets(system_type):
         case "Stellar nebula":
             return int(math.floor(random.random()*6))
 
-def gen_system_designation(username,systems):
+def gen_system_designation(username,user_systems):
     #FIXME currently no redundancy filter for users with the same first two intials
-    #FIXME currently deleting systems can cause system index to match causing a redundancy
-    return f"{(username[0:2]).upper()}-{str(len(systems)+1).rjust(5,'0')}"
+    #FIXME currently deleting systems can cause system index to match causing a unique conflict
+    for index in (range(len(user_systems))):
+        if user_systems[index].designation != f"{(username[0:2]).upper()}-{str(index+1).rjust(5,'0')}":
+            name = f"{(username[0:2]).upper()}-{str(index+1).rjust(5,'0')}"
+            break
+    return name
+    # return f"{(username[0:2]).upper()}-{str(len(user_systems)+1).rjust(5,'0')}"
 
 # def gen_system_name():
 #     name=""
@@ -78,47 +83,47 @@ def gen_star_name(system, star_index):
 
 def gen_star_details(system):
     star_choices = [
-    "blue-white supergiant",
-    "yellow supergiant",
-    "red supergiant",
-	"blue-white giant",
-    "yellow giant",
-    "red giant",
-    "main sequence O-spectrum",
-    "main sequence B-spectrum",
-    "main sequence A-spectrum",
-    "main sequence F-spectrum",
-    "main sequence G-spectrum",
-    "main sequence K-spectrum",
-    "main sequence M-spectrum",
-    "red dwarf",
-    "brown dwarf",
+    "Blue-white Supergiant",
+    "Yellow Supergiant",
+    "Red Supergiant",
+	"Blue-white Giant",
+    "Yellow Giant",
+    "Red Giant",
+    "Main sequence O-spectrum",
+    "Main sequence B-spectrum",
+    "Main sequence A-spectrum",
+    "Main sequence F-spectrum",
+    "Main sequence G-spectrum",
+    "Main sequence K-spectrum",
+    "Main sequence M-spectrum",
+    "Red Dwarf",
+    "Brown Dwarf",
     "White Dwarf",
     ]
     star_type = random.choices(star_choices, weights=(1,0.5,0.5,1.5,0.5,5,18,16,14,12,10,8,6,3,2,2))
     # print("Gen Star Type: ", star_type[0])
     match star_type[0]:
-        case "blue-white supergiant" | "yellow supergiant" | "red supergiant":
+        case "Blue-white Supergiant" | "Yellow Supergiant" | "Red Supergiant":
             star_mass = random.random()*150+8
-        case "blue-white giant" | "yellow giant" | "red giant":
+        case "Blue-white Giant" | "Yellow Giant" | "Red Giant":
             star_mass = random.random()*120.75+0.25
-        case "main sequence O-spectrum":
+        case "Main sequence O-spectrum":
             star_mass = random.random()*119.9+0.10
-        case "main sequence B-spectrum":
+        case "Main sequence B-spectrum":
             star_mass = random.random()*60.9+0.10
-        case "main sequence A-spectrum":
+        case "Main sequence A-spectrum":
             star_mass = random.random()*35.9+0.10
-        case "main sequence F-spectrum":
+        case "Main sequence F-spectrum":
             star_mass = random.random()*20.9+0.10
-        case "main sequence G-spectrum":
+        case "Main sequence G-spectrum":
             star_mass = random.random()*9.9+0.10
-        case "main sequence K-spectrum":
+        case "Main sequence K-spectrum":
             star_mass = random.random()*3.9+0.10
-        case "main sequence M-spectrum":
+        case "Main sequence M-spectrum":
             star_mass = random.random()*2.9+0.10
         case "White Dwarf":
             star_mass = random.random()*1.05+0.15
-        case "red dwarf" | "brown dwarf":
+        case "Red Dwarf" | "Brown Dwarf":
             star_mass = random.random()*0.075+0.009
     # potential for luminosity
     return [star_type[0],star_mass]
@@ -137,18 +142,18 @@ def gen_planet_name(system, planet_index):
 
 def gen_planet_details(system):
     planet_choices = [
-    "gas giant",
-    "rocky planet",
-    "dwarf planet",
+    "Gas Giant",
+    "Rocky Planet",
+    "Dwarf Planet",
     ]
     planet_type = random.choices(planet_choices, weights=(25,33,42))
     print("Gen Planet Type: ", planet_type[0])
     match planet_type[0]:
-        case "gas giant":
+        case "Gas Giant":
             planet_mass = random.random()*100+317.82838
-        case "rocky planet":
+        case "Rocky Planet":
             planet_mass = random.random()*2+.5
-        case "dwarf planet":
+        case "Dwarf Planet":
             planet_mass = random.random()*0.5+.1
     # potential for luminosity
     return [planet_type[0],planet_mass]

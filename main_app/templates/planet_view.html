@@ -29,7 +29,9 @@
     <div id="planetDetail">
         <h1>{{planetoid.body_type}} designation: {{planetoid.designation}}</h1>
         <h1>{{planetoid.body_type}} name: {{planetoid.name}}</h1>
+        {% if user.is_authenticated and user.id == system.discoverer.id%}
         <button id="systemEditButton" type="button">edit</button>
+        {% endif %}
         <div id="THREEJS1"></div>
         <h2>Planet type: {{planetoid.body_type}}</h2>
         <h2>Mass: {{planetoid.mass}} M🜨</h2>

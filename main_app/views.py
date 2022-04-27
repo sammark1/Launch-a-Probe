@@ -44,7 +44,7 @@ def Star_View(request, star_id):
         form = Star_Update_Form() #may need args
         return render(request, 'star_view.html', {'system':system,'star':star, 'discoverer':discoverer, 'form':form})
 
-# TODO generate 
+ 
 def Star_Create(system, star_index):
     star_details = gen_star_details(system)
     star_instance = Star_Object.objects.create(
@@ -79,7 +79,6 @@ def Planetoid_View(request, planetoid_id):
         form = Planet_Update_Form() #may need args
         return render(request, 'planet_view.html', {'system':system,'planetoid':planetoid, 'discoverer':discoverer, 'form':form})
 
-# TODO planet generation details
 def Planet_Create(system, planet_index):
     planet_details = gen_planet_details(system)
     planetoid_instance=Planetoid.objects.create(
@@ -216,8 +215,6 @@ class System_Create(CreateView):
         num_planets = get_system_planets(self.object.system_type)
         for index in range(num_planets):
             Planet_Create(self.object, index)
-
-        # time.sleep(1)
 
         return HttpResponseRedirect(f'/system/scan/{self.object.id}')
 

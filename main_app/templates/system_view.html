@@ -36,7 +36,9 @@
         <h1>System Designation: {{system.designation}}</h1>
         <h1>System Name: {{system.name}}</h1>
         <h1>{{system.system_type}}</h1>
+        {% if user.is_authenticated and user.id == system.discoverer.id%}
         <button id="systemEditButton" type="button">edit</button>
+        {% endif %}
     </div>
     
     <div id=systemContent>
