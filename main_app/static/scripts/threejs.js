@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import render_data from './render_data.json' assert {type:'json'}
 
 
+const displayElement = document.querySelector('#THREEJS1')
 const displayZone = [innerWidth,500];
 
 const scene = new THREE.Scene();

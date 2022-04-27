@@ -233,6 +233,7 @@ button{
 #systemView > #THREEJS1{
     position: absolute;
     z-index: -1;
+    max-width:1440px;
 }
 
 #systemContent {
