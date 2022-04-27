@@ -179,6 +179,16 @@ button{
     
 }
 
+#downArrows{
+    /* border: 1px solid red; */
+    position:absolute;
+    width: 100vw;
+    top:95vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
 #blurb{
     position:absolute;
     padding:1rem 1rem 3rem 1rem;
@@ -186,7 +196,7 @@ button{
     /* border: 1px red solid; */
     top:100vh;
     background: rgb(0,0,0);
-background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgb(160, 160, 160) 100%);
+    background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgb(160, 160, 160) 100%);
 }
 /* !SECTION */
 
