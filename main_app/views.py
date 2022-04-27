@@ -126,6 +126,7 @@ def System_View(request, system_id):
     system = System.objects.get(id=system_id)
     stars = Star_Object.objects.filter(system=system)
     planetoids = Planetoid.objects.filter(system=system)
+    pass_render_data(stars[0].emission_color)
     if request.method == 'POST':
         u_form = System_Update_Form(request.POST)
         d_form = System_Delete_Form(request.POST)
@@ -262,7 +263,7 @@ def landing_view(request): #includes login and signup
 
 #!SECTION
 
-# utility
+# SECTION utility
 def pass_render_data(color):
     render_data={
             'bodyColor':color,
@@ -270,3 +271,5 @@ def pass_render_data(color):
     f = open("main_app/static/scripts/render_data.json", "w")
     f.write(json.dumps(render_data))
     f.close()
+
+#!SECTION
