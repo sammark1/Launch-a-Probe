@@ -32,6 +32,7 @@ def Star_View(request, star_id):
     star = Star_Object.objects.get(id=star_id)
     system = System.objects.get(name=star.system.name)
     discoverer = User.objects.get(username=system.discoverer)
+    pass_render_data(star.emission_color)
     if request.method == 'POST':
         form = Star_Update_Form(request.POST)
         if form.is_valid():
@@ -46,12 +47,14 @@ def Star_View(request, star_id):
 
  
 def Star_Create(system, star_index):
+    star_designation=gen_star_designation(system, star_index)
     star_details = gen_star_details(system)
     star_instance = Star_Object.objects.create(
-        designation = gen_star_designation(system, star_index),
+        designation = star_designation,
         name = gen_star_name(system, star_index),
         stellar_class = star_details[0], 
         mass = star_details[1],
+        emission_color=star_details[2],
         system_id = system.id,
         )
     star_instance.save()
@@ -104,13 +107,6 @@ class Systems_List(TemplateView):
         else:
             context["systems"] = System.objects.all()
 
-        render_data={
-            'bodyColor':0xffff00,
-        }
-        f = open("main_app/static/scripts/render_data.json", "w")
-        f.write(json.dumps(render_data))
-        f.close()
-
         return context
 
 # class System_View(DetailView):
@@ -130,6 +126,7 @@ def System_View(request, system_id):
     system = System.objects.get(id=system_id)
     stars = Star_Object.objects.filter(system=system)
     planetoids = Planetoid.objects.filter(system=system)
+    pass_render_data(stars[0].emission_color)
     if request.method == 'POST':
         u_form = System_Update_Form(request.POST)
         d_form = System_Delete_Form(request.POST)
@@ -263,5 +260,16 @@ def landing_view(request): #includes login and signup
         form1 = AuthenticationForm()
         form2 = UserCreationForm()
         return render(request, 'login.html', {'form1': form1, 'form2':form2})
+
+#!SECTION
+
+# SECTION utility
+def pass_render_data(color):
+    render_data={
+            'bodyColor':color,
+    }
+    f = open("main_app/static/scripts/render_data.json", "w")
+    f.write(json.dumps(render_data))
+    f.close()
 
 #!SECTION
