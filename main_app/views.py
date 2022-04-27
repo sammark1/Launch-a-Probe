@@ -47,12 +47,14 @@ def Star_View(request, star_id):
 
  
 def Star_Create(system, star_index):
+    star_designation=gen_star_designation(system, star_index)
     star_details = gen_star_details(system)
     star_instance = Star_Object.objects.create(
-        designation = gen_star_designation(system, star_index),
+        designation = star_designation,
         name = gen_star_name(system, star_index),
         stellar_class = star_details[0], 
         mass = star_details[1],
+        emission_color=star_details[2],
         system_id = system.id,
         )
     star_instance.save()
