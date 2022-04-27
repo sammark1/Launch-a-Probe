@@ -44,6 +44,7 @@ class Star_Object(models.Model):
     name = models.CharField(max_length = 128)
     system = models.ForeignKey(System, on_delete=models.CASCADE)
     stellar_class = models.CharField(max_length = 50, choices = STELLAR_CHOICES)
+    emission_color = models.IntegerField()
     mass = models.FloatField()
     created_at = models.DateTimeField(auto_now_add = True)
 

@@ -32,6 +32,7 @@ def Star_View(request, star_id):
     star = Star_Object.objects.get(id=star_id)
     system = System.objects.get(name=star.system.name)
     discoverer = User.objects.get(username=system.discoverer)
+    pass_render_data(star.emission_color)
     if request.method == 'POST':
         form = Star_Update_Form(request.POST)
         if form.is_valid():
@@ -103,13 +104,6 @@ class Systems_List(TemplateView):
             context["systems"] = System.objects.filter(name__icontains=search)
         else:
             context["systems"] = System.objects.all()
-
-        render_data={
-            'bodyColor':0xffff00,
-        }
-        f = open("main_app/static/scripts/render_data.json", "w")
-        f.write(json.dumps(render_data))
-        f.close()
 
         return context
 
@@ -265,3 +259,12 @@ def landing_view(request): #includes login and signup
         return render(request, 'login.html', {'form1': form1, 'form2':form2})
 
 #!SECTION
+
+# utility
+def pass_render_data(color):
+    render_data={
+            'bodyColor':color,
+    }
+    f = open("main_app/static/scripts/render_data.json", "w")
+    f.write(json.dumps(render_data))
+    f.close()
