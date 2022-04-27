@@ -32,16 +32,20 @@ def get_system_planets(system_type):
 
 def gen_system_designation(username,user_systems):
     #FIXME currently no redundancy filter for users with the same first two intials
-    for index in (range(len(user_systems))):
-        if user_systems==False:
-            name = f"{(username[0:2]).upper()}-{str(1).rjust(5,'0')}"
-            break
-        if user_systems[index].designation != f"{(username[0:2]).upper()}-{str(index+1).rjust(5,'0')}":
-            name = f"{(username[0:2]).upper()}-{str(index+1).rjust(5,'0')}"
-            break
-        else:
-            name = f"{(username[0:2]).upper()}-{str(index+2).rjust(5,'0')}"
-    return name
+    name=""
+    print (user_systems)
+    if user_systems:
+        for index in (range(len(user_systems))):
+            if user_systems[index].designation != f"{(username[0:2]).upper()}-{str(index+1).rjust(5,'0')}":
+                name = f"{(username[0:2]).upper()}-{str(index+1).rjust(5,'0')}"
+                return name
+            else:
+                name = f"{(username[0:2]).upper()}-{str(index+2).rjust(5,'0')}"
+        return name
+    else:
+        print("hit the if")
+        name = f"{(username[0:2]).upper()}-{str(1).rjust(5,'0')}"
+        return name
     # return f"{(username[0:2]).upper()}-{str(len(user_systems)+1).rjust(5,'0')}"
 
 # def gen_system_name():

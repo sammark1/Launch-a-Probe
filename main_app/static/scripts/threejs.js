@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import render_data from './render_data.json' assert {type:'json'}
+// import { EffectComposer } from './postprocessing/EffectComposer';
 
 
 const displayElement = document.querySelector('#THREEJS1')
