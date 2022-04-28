@@ -1,18 +1,20 @@
 import * as THREE from 'three';
 import render_data from './render_data.json' assert {type:'json'}
-// import { EffectComposer } from './postprocessing/EffectComposer';
+import { EffectComposer } from './postprocessing/EffectComposer.js';
+import { RenderPass } from './postprocessing/RenderPass.js';
+import { UnrealBloomPass } from './postprocessing/UnrealBloomPass.js';
 
 
 const displayElement = document.querySelector('#THREEJS1')
-const displayZone = [innerWidth,500];
+const displayZone = [500,500];
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75,displayZone[0]/displayZone[1], 0.1, 1000);
 const renderer = new THREE.WebGLRenderer({antialias:true});
-// const EC = new EffectComposer(renderer, camera);
+renderer.setPixelRatio(devicePixelRatio);
+const EffectComp = new EffectComposer(renderer);
 
 renderer.setSize(displayZone[0],displayZone[1]);
-renderer.setPixelRatio(devicePixelRatio);
 document.getElementById("THREEJS1").appendChild(renderer.domElement);
 
 const light1 = new THREE.PointLight( 0xffa000, .6, 100 )
@@ -70,9 +72,17 @@ light1.target = body;
 camera.position.z = 3;
 
 
+const renderPass = new RenderPass(scene, camera);
+EffectComp.addPass(renderPass);
+const urBloomPass = new UnrealBloomPass(512,.75,0.01,0);
+EffectComp.addPass(urBloomPass);
+console.log(urBloomPass)
+
+
 function animate () {
     requestAnimationFrame(animate);
-    renderer.render(scene, camera);
+    // renderer.render(scene, camera);
+    EffectComp.render()
     // body.rotation.x +=0.007;
     body.rotation.y +=0.01;
     atmosphere.rotation.y +=0.005;
